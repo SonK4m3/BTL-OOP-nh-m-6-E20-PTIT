@@ -4,13 +4,14 @@ import java.awt.MouseInfo;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import test.Test;
+import frame.Screen;
+
 
 public class MyMouseListener implements MouseListener{
 	
-	private Test myScreen;
+	private Screen myScreen;
 	
-	public MyMouseListener(Test myScreen) {
+	public MyMouseListener(Screen myScreen) {
 		this.myScreen = myScreen;
 	}
 	

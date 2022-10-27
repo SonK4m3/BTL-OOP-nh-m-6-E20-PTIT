@@ -1,5 +1,6 @@
 package frame;
 
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
@@ -8,22 +9,33 @@ public abstract class ActivityAbs extends JPanel{
 
 	private static final long serialVersionUID = 1L;
 	
-	int screenWidth;
-	int screenHeight;
+	protected int activityWidth;
+	protected int activityHeight;
 	
 	Screen screen;
 	
-	BufferedImage image;
+	protected BufferedImage image;
+	
+	void setScreen(ScreenAbs screenAbs) {
+		this.screen = (Screen) screenAbs;
+	}
 	
 	public Screen getScreen() {
 		return screen;
 	}
 	
-	public int getScreenWidth() {
-		return screenWidth;
+	public int getActivityWidth() {
+		return activityWidth;
 	}
 	
-	public int getScreenHeight() {
-		return screenHeight;
+	public int getActivityHeight() {
+		return activityHeight;
 	}
+	
+	@Override
+	public void paint(Graphics g) {
+		super.paint(g);
+	}
+
+	public abstract int action(int xMouse, int yMouse);
 }

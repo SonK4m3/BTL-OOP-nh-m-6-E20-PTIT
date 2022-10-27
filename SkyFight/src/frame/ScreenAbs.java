@@ -3,12 +3,20 @@ package frame;
 import javax.swing.JFrame;
 
 import input.MouseState;
+import input.MyMouseListener;
 
 public abstract class ScreenAbs extends JFrame{
+	int screenWidth = 200;
+	int screenHeight = 200;
+	
 	protected int xMouse;
 	protected int yMouse;
 	
 	protected MouseState mouseState;
+	
+	protected MyMouseListener myMouseListener;
+	
+	ActivityAbs currentActivity;
 	
 	public int getXMouse() {
 		return xMouse;
@@ -29,5 +37,18 @@ public abstract class ScreenAbs extends JFrame{
 
 	public MouseState getMouseState() {
 		return mouseState;
+	}
+	
+	public void addActivity(ActivityAbs activity) {
+		this.remove(this.currentActivity);
+		this.add(activity);
+		this.setSize(activity.getPreferredSize());
+		this.revalidate();
+		this.currentActivity = activity;
+		currentActivity.setScreen(this);
+	}
+	
+	public ActivityAbs getCurrentActivity() {
+		return currentActivity;
 	}
 }

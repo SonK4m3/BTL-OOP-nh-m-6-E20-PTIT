@@ -1,43 +1,52 @@
 package test;
 
-import javax.swing.*;
-
+import control.AppController;
 import frame.Activity;
+import frame.ActivityAbs;
 import frame.Screen;
 import input.MouseState;
-import input.MyMouseListener;
 
-public class Test extends Screen{
-
-	MyMouseListener myMouseListener;
+public class Test{
 	
-	Activity panel;
+	AppController myAppController = new AppController();
+	
+	Screen screen;
+	
+	ActivityAbs home;
+	ActivityAbs menu;
 	
 	public Test() {
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setResizable(false);
-		
-		panel = new Activity(this);
-		panel.init();
-		
-		myMouseListener = new MyMouseListener(this);
-		
-		this.add(panel);
-		this.addMouseListener(myMouseListener);
-		this.pack();
-		this.setLocationRelativeTo(null);
-		this.setVisible(true);
+		screen = new Screen(new Activity());
+		home = new HomeScreen();
+		menu = new MenuActivity();
+		screen.addActivity(home);
 		
 	}
 	
 	public void run() {
 		while(true) {
-			if(mouseState == MouseState.LEFTPRESSED) {
-				System.out.println(mouseState + " " + xMouse + " " + yMouse);
-				System.out.println(this.panel.getScreen());
-				break;
-			}else {
-				System.out.println('0');
+			if(screen.getMouseState() == MouseState.LEFTPRESSED) {
+				System.out.println(screen.getXMouse() + " " + screen.getYMouse());
+				int state = screen.getCurrentActivity().action(screen.getXMouse(), screen.getYMouse());
+				if(state == 1) {
+//					try {
+//						Thread.sleep(60);
+//					} catch (Exception e) {
+//						e.printStackTrace();
+//					}
+//					
+//					screen.remove(home);
+//					screen.add(menu);
+//					screen.revalidate();
+					screen.addActivity(menu);
+				}
+			}
+			
+			try {
+				Thread.sleep(85);
+			}
+			catch(Exception e) {
+				e.printStackTrace();
 			}
 		}
 	}
