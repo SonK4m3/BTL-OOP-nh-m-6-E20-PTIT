@@ -1,6 +1,6 @@
 package figure;
 
-import frame.ActivityAbs;
+import activities.ActivityAbs;
 
 public class Cell {
 	int x = 0;

@@ -9,9 +9,9 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import activities.ActivityAbs;
+import activities.ActivityImp;
 import button.*;
-import frame.ActivityAbs;
-import frame.ActivityImp;
 
 public class MenuActivity extends ActivityAbs implements ActivityImp{
 
@@ -61,7 +61,7 @@ public class MenuActivity extends ActivityAbs implements ActivityImp{
 		}
 		if(button3.isPressed(xPos, yPos)) {
 			System.out.println("button 3");
-			return 2;
+			return 3;
 		}
 		return -1;
 	}

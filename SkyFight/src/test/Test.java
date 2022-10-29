@@ -1,8 +1,8 @@
 package test;
 
+import activities.Activity;
+import activities.ActivityAbs;
 import control.AppController;
-import frame.Activity;
-import frame.ActivityAbs;
 import frame.Screen;
 import input.MouseState;
 
@@ -25,13 +25,14 @@ public class Test{
 		menu = new MenuActivity();
 		play = new PlayActivity();
 		//add first activity
-		screen.addActivity(home);
+		screen.addActivity(play);
 		
 	}
 	
 	public void run() {
 		//application loop
-		while(true) {
+		boolean running = true;
+		while(running) {
 			// when clicked left pressed
 			if(screen.getMouseState() == MouseState.LEFTPRESSED) {
 				// debug
@@ -48,12 +49,18 @@ public class Test{
 					}
 					else if(state == 2) {
 						screen.addActivity(menu);
-					}					
+					}				
+					else if(state == 3) {
+						running = false;
+					}
 				}
 				else if (screen.getCurrentActivity() == menu) {
 					if(state == 1) {
 						screen.addActivity(home);
 					}
+				}
+				else if(screen.getCurrentActivity() == play) {
+					
 				}
 			}
 			// set thread to clicked

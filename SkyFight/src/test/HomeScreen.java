@@ -8,10 +8,10 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import activities.ActivityAbs;
+import activities.ActivityImp;
 import button.ButtonAbs;
 import button.QuitButton;
-import frame.ActivityAbs;
-import frame.ActivityImp;
 
 public class HomeScreen extends ActivityAbs implements ActivityImp{
 	

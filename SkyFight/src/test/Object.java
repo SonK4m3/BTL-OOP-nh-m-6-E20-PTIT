@@ -32,8 +32,20 @@ public abstract class Object extends JLabel{
 	
 	int[] convertPixcelToCell(int xPos, int yPos){
 		int[] cellPos = new int[2]; 
-		cellPos[0] = xPos - this.x;
-		cellPos[1] = yPos - this.y;
+		cellPos[0] = (xPos - this.x);
+		cellPos[1] = (yPos - this.y);
+		
+		
+		if((cellPos[0] >= 0 && cellPos[0] <= this.width)
+			&& (cellPos[1] >= 0 && cellPos[1] <= this.height)) {
+			cellPos[0] = cellPos[0] / 31; 
+			cellPos[1] = cellPos[1] / 31; 
+		}
+		else {
+			cellPos[0] = -1; // clicked out of board
+			cellPos[1] = -1; // clicked out of board
+		}
+		
 		return cellPos;
 	}
 	

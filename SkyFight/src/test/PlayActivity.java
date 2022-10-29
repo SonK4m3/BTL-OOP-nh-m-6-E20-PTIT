@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 
+import activities.ActivityAbs;
+import activities.ActivityImp;
 import button.QuitButton;
 import frame.*;
 
@@ -37,7 +39,11 @@ public class PlayActivity extends ActivityAbs implements ActivityImp{
 
 	@Override
 	public int action(int xMouse, int yMouse) {
-		// TODO Auto-generated method stub
+		// postion of cell
+		int[] pos = board.convertPixcelToCell(xMouse, yMouse);
+		
+		System.out.println("Cell: " + pos[0] + " " + pos[1]);
+		
 		return 0;
 	}
 	

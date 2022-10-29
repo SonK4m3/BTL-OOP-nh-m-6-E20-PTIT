@@ -3,10 +3,11 @@ package test;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 
+import activities.ActivityAbs;
 import button.ButtonAbs;
 import button.ButtonImp;
-import frame.ActivityAbs;
 
 public class SwitchScreenButton extends ButtonAbs implements ButtonImp{
 	
@@ -16,20 +17,14 @@ public class SwitchScreenButton extends ButtonAbs implements ButtonImp{
 		this.setAcivity(activity);
 		this.xPos = xPos;
 		this.yPos = yPos;
-		this.init();
 		this.myButton();
 	}
 	
 	@Override
-	public void init() {
-		this.isMouseOnButton = false;
-		
-	}
-
-	@Override
 	public void myButton() {
 		this.buttonWidth = 130;
-		this.buttonHeight = 30;		
+		this.buttonHeight = 30;	
+		this.isMouseOnButton = false;
 	}
 
 	@Override
@@ -50,6 +45,12 @@ public class SwitchScreenButton extends ButtonAbs implements ButtonImp{
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setColor(Color.blue);
 		g2d.fillRect(this.xPos, this.yPos, this.buttonWidth, this.buttonHeight);
+	}
+
+	@Override
+	protected void setImage(BufferedImage image) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
