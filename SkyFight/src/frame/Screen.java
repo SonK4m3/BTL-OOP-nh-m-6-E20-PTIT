@@ -1,7 +1,5 @@
 package frame;
 
-import java.awt.Dimension;
-
 import javax.swing.JFrame;
 
 import input.MouseState;
@@ -28,11 +26,11 @@ public class Screen extends ScreenAbs implements ScreenImp{
 	@Override
 	public void setUp() {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//		this.setSize(new Dimension(this.screenWidth, this.screenHeight));
 		this.setResizable(false);
 		
 		this.add(currentActivity);
 		this.addMouseListener(myMouseListener);
+
 		this.pack();
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);		

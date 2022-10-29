@@ -1,5 +1,7 @@
 package frame;
 
+import java.awt.BorderLayout;
+
 import javax.swing.JFrame;
 
 import input.MouseState;
@@ -18,6 +20,7 @@ public abstract class ScreenAbs extends JFrame{
 	
 	ActivityAbs currentActivity;
 	
+	//setter & getter
 	public int getXMouse() {
 		return xMouse;
 	}
@@ -39,9 +42,14 @@ public abstract class ScreenAbs extends JFrame{
 		return mouseState;
 	}
 	
+	/*
+	 * 	switch activity
+	 * 	reset currentActivity
+	 * 
+	 */
 	public void addActivity(ActivityAbs activity) {
 		this.remove(this.currentActivity);
-		this.add(activity);
+		this.add(activity, BorderLayout.CENTER);
 		this.setSize(activity.getPreferredSize());
 		this.revalidate();
 		this.currentActivity = activity;

@@ -46,7 +46,6 @@ public class MenuActivity extends ActivityAbs implements ActivityImp{
 
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
 		
 	}
 

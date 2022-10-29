@@ -1,5 +1,7 @@
 package figure;
 
+import frame.ActivityAbs;
+
 public class Cell {
 	int x = 0;
 	int y = 0;
@@ -20,5 +22,4 @@ public class Cell {
 	int getY() {
 		return y;
 	}
-	
 }
