@@ -3,32 +3,28 @@ package button;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 
-import frame.ActivityAbs;
+import activities.ActivityAbs;
 
 public class QuitButton extends ButtonAbs implements ButtonImp{
 	public QuitButton(ActivityAbs activity, int xPos, int yPos) {
 		this.setAcivity(activity);
 		this.xPos = xPos;
 		this.yPos = yPos;
-		this.init();
 		this.myButton();
 	}
-
+	
 	@Override
-	public void init() {
+	public void myButton() {
+		this.buttonWidth = 150;
+		this.buttonHeight = 40;
 		this.isMouseOnButton = false;
 	}
 
 	@Override
-	public void myButton() {
-		this.buttonHeight = 30;
-		this.buttonWidth = 130;
-	}
-
-	@Override
 	public void action() {		
-		System.out.println("Exit Game");
+		System.out.println("Quit Button");
 	}
 
 	@Override
@@ -39,8 +35,7 @@ public class QuitButton extends ButtonAbs implements ButtonImp{
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
-		Graphics2D g2d = (Graphics2D) g;
-		g2d.setColor(Color.black);
-		g2d.fillRect(this.xPos, this.yPos, this.buttonWidth, this.buttonHeight);
+		g.setColor(Color.black);
+		g.fillRect(this.xPos, this.yPos, this.buttonWidth, this.buttonHeight);
 	}
 }

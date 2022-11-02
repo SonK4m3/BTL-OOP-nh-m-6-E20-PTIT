@@ -2,19 +2,25 @@ package frame;
 
 import javax.swing.JFrame;
 
+import activities.ActivityAbs;
+import control.AppController;
+import control.ImageController;
 import input.MouseState;
 import input.MyMouseListener;
 
 public class Screen extends ScreenAbs implements ScreenImp{
 	
 	private static final long serialVersionUID = 1L;
-
-	public Screen(ActivityAbs activity) {
-		this.init();
+	
+	private AppController appController;
+	
+	public Screen(AppController appController, ActivityAbs activity) {
+		this.appController = appController;
 		this.currentActivity = activity;
+		this.init();
 		this.setUp();
 	}
-
+	
 	@Override
 	public void init() {
 		this.xMouse = -1;
@@ -35,5 +41,12 @@ public class Screen extends ScreenAbs implements ScreenImp{
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);		
 	}
-
+	
+	public void resizeAllActivities() {
+		this.appController.resizeAllActivities();
+	}
+	
+	public ImageController getImageController() {
+		return appController.imageController;
+	}
 }

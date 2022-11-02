@@ -19,7 +19,7 @@ public class Test{
 	
 	public Test() {
 		// initial first activities
-		screen = new Screen(new Activity());
+		screen = new Screen(myAppController, new Activity());
 		//constructor
 		home = new HomeScreen();
 		menu = new MenuActivity();

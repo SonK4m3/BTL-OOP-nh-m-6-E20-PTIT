@@ -1,8 +1,11 @@
 package button;
 
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+
 import javax.swing.JLabel;
 
-import frame.ActivityAbs;
+import activities.ActivityAbs;
 
 public abstract class ButtonAbs extends JLabel{
 	
@@ -13,6 +16,8 @@ public abstract class ButtonAbs extends JLabel{
 	protected int buttonWidth;
 	protected int buttonHeight;
 	protected boolean isMouseOnButton;
+	
+	BufferedImage buttonImage;
 	
 	public int getXPos() {
 		return xPos;
@@ -30,6 +35,10 @@ public abstract class ButtonAbs extends JLabel{
 		return buttonHeight;
 	}
 	
+	public void setImage(BufferedImage image){
+		this.buttonImage = image;
+	}
+	
 	public boolean isPressed(int xPos, int yPos) {
 		if(xPos >= this.xPos && xPos <= (this.xPos + this.buttonWidth) && 
 				yPos >= this.yPos && yPos <= (this.yPos + this.buttonHeight)) {
@@ -44,5 +53,11 @@ public abstract class ButtonAbs extends JLabel{
 	
 	protected ActivityAbs getActivity() {
 		return this.activity;
+	}
+	
+	@Override
+	public void paint(Graphics g) {
+		super.paint(g);
+		g.drawImage(buttonImage, xPos, yPos, null);
 	}
 }

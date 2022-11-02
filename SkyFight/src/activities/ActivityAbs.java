@@ -1,9 +1,12 @@
-package frame;
+package activities;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
+
+import frame.*;
 
 public abstract class ActivityAbs extends JPanel{
 
@@ -16,7 +19,7 @@ public abstract class ActivityAbs extends JPanel{
 	
 	protected BufferedImage image;
 	
-	void setScreen(ScreenAbs screenAbs) {
+	public void setScreen(ScreenAbs screenAbs) {
 		this.screen = (Screen) screenAbs;
 	}
 	
@@ -30,6 +33,16 @@ public abstract class ActivityAbs extends JPanel{
 	
 	public int getActivityHeight() {
 		return activityHeight;
+	}
+	
+	public void setSize(int width, int height) {
+		this.activityWidth = width;
+		this.activityHeight = height;
+	}
+	
+	public void reSize(int width, int height) {
+		this.setSize(width, height);
+		this.setPreferredSize(new Dimension(this.activityWidth, this.activityHeight));
 	}
 	
 	@Override

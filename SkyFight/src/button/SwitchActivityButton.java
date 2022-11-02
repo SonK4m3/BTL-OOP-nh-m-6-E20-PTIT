@@ -3,34 +3,30 @@ package button;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 
+import activities.ActivityAbs;
 import frame.*;
 
-public class Button extends ButtonAbs implements ButtonImp{
-	
-	public Button(ActivityAbs activity, int xPos, int yPos) {
+public class SwitchActivityButton extends ButtonAbs implements ButtonImp{
+
+	public SwitchActivityButton(ActivityAbs activity, int xPos, int yPos) {
 		this.setAcivity(activity);
 		this.xPos = xPos;
 		this.yPos = yPos;
-		this.init();
 		this.myButton();
-		
 	}
-
-	@Override
-	public void init() {
-		this.isMouseOnButton = false;
-	}
-
+	
 	@Override
 	public void myButton() {
-		this.buttonWidth = 200;
-		this.buttonHeight = 100;
+		this.buttonWidth = 150;
+		this.buttonHeight = 40;	
+		this.isMouseOnButton = false;		
 	}
 
 	@Override
 	public void action() {
-		System.out.println("Button");
+		// TODO Auto-generated method stub
 		
 	}
 

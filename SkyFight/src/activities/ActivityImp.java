@@ -1,4 +1,4 @@
-package frame;
+package activities;
 
 public interface ActivityImp {
 	

@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
 
+import activities.ActivityAbs;
 import input.MouseState;
 import input.MyMouseListener;
 
