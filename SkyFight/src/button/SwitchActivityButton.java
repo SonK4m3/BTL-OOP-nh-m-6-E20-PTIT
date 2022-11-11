@@ -29,4 +29,18 @@ public class SwitchActivityButton extends ButtonAbs implements ButtonImp{
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public boolean checkMouseOnButton(int x, int y) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	@Override
+	public void paint(Graphics g) {
+		super.paint(g);
+		Graphics2D g2d = (Graphics2D) g;
+		g2d.setColor(Color.blue);
+		g2d.fillRect(this.xPos, this.yPos, this.buttonWidth, this.buttonHeight);
+	}
 }

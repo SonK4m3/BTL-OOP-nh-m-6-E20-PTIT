@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 
-public class Activity extends ActivityAbs{
+public class Activity extends ActivityAbs implements ActivityImp{
 	
 	private static final long serialVersionUID = 1L;
 
@@ -26,25 +26,14 @@ public class Activity extends ActivityAbs{
 	}
 
 	@Override
-	public int action(int xMouse, int yMouse) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
 	public void update() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void setTheme1() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setTheme2() {
+	public int action(int xPos, int yPos) {
+		return -1;
 		// TODO Auto-generated method stub
 		
 	}

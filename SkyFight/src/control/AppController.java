@@ -2,87 +2,75 @@ package control;
 
 import java.util.ArrayList;
 
+import javax.swing.ComponentInputMap;
+
 import activities.*;
 import frame.*;
 import input.MouseState;
+import test.GameController;
 
-public class AppController{
+
+public class AppController {
 	
-	public ImageController imageController = new ImageController();
+	public ImageController imageController;
 	
 	boolean appIsRunning;
-	boolean gameIsRunning;
-	
-	Screen mainScreen;
-	
-	HomeActivity homeActivity;
-	OptionActivity optionActivity;
-	ChooseCraftActivity chooseScraftActivity;
-	ActivityAbs playActivity;
-	
-	ArrayList<ActivityAbs> listActivities = new ArrayList<ActivityAbs>();
-	
 	GameController gameController;
+	Screen mainScreen;			//frame
+	boolean gameIsRunning = false;
+	HomeActivity homeActivity;	//title panel
+	OptionActivity optionActivity;	// option panel
+	ChooseCraftActivity chooseScraftActivity;	//place craft panel
+	ActivityAbs playActivity;			// shoot panel
 	
-	public int theme = 1;
-	public int gameSize = 1;
-	public int aircraftType = 1;
-	public int boardType = 1;
+	ArrayList<ActivityAbs> listActivities = new ArrayList<ActivityAbs>();		//list of panel
 	
 	public AppController() {
 		
 	}
 	
-	public void initApp() {
+	public void initApp() {		//initialize application
 		//loading image before start game
-		imageController.initImage();
-		//initial screen and activities
-		mainScreen = new Screen(this, new Activity());
-				
-		homeActivity = (HomeActivity) createActivity(new HomeActivity());
-		chooseScraftActivity = (ChooseCraftActivity) createActivity(new ChooseCraftActivity());
-		optionActivity = (OptionActivity) createActivity(new OptionActivity());
-			
-		mainScreen.addActivity(homeActivity);
+//		imageController = new ImageController();
+//		imageController.initImage();
 		
-		appIsRunning = true;
-		gameIsRunning = false;
+		appIsRunning = true;	//app is running
+		
+		mainScreen = new Screen(this, new Activity());		//create frame
+		
+		homeActivity = (HomeActivity) createActivity(new HomeActivity());		//create title panel
+		chooseScraftActivity = (ChooseCraftActivity) createActivity(new ChooseCraftActivity());		//create place craft panel	
+		optionActivity = (OptionActivity) createActivity(new OptionActivity());		//create option panel
+		
+		//add first activity to screen
+		mainScreen.addActivity(chooseScraftActivity);			//add place craft panel to frame
+//		mainScreen.addActivity(homeActivity);
 	}
 	
-	ActivityAbs createActivity(ActivityAbs activity) {
+	ActivityAbs createActivity(ActivityAbs activity) {			
 		this.listActivities.add(activity);
-		activity.setScreen(mainScreen);
-		activity.update();
 		return activity;
 	}
 	
-	public void resettingAllActivities() {
+	public void resizeAllActivities() {
+		int newWidth = optionActivity.getActivityWidth();
+		int newHeight = optionActivity.getActivityHeight();
 		
 		for(ActivityAbs activity : listActivities) {
-			if(this.gameSize == 1) {
-				activity.setSize1();
-			} else {
-				activity.setSize2();
-			}
-			if(this.theme == 1) {
-				activity.setTheme1();
-			} else {
-				activity.setTheme2();
-			}
+			activity.reSize(newWidth, newHeight);			
 		}
 	}
 	
 	public void loopApp() {
 		// application loop
 		while(appIsRunning) {
-			// set thread to clicked
 			try {
-				Thread.sleep(60);
+				Thread.sleep(85);
 			} catch(Exception e) {
 				e.printStackTrace();
 			}
 			//get mouse event 
-			if(mainScreen.getMouseState() == MouseState.LEFTPRESSED || mainScreen.getMouseState() == MouseState.LEFTPRESSED) {
+			if(mainScreen.getMouseState() == MouseState.LEFTPRESSED) {
 				//debug
 				//print mouse position
 				System.out.println("pressed mouse position: " + mainScreen.getXMouse() + " " + mainScreen.getYMouse());
@@ -94,12 +82,9 @@ public class AppController{
 					if(state == 1) {
 						// if click switch button, we reset current activity
 						mainScreen.addActivity(chooseScraftActivity);
-						// and start initial gameLoop
-						gameIsRunning = true;
 					}
 					else if(state == 2) {
 						mainScreen.addActivity(optionActivity);
-						optionActivity.getCurrentSetting();
 					}				
 					else if(state == 3) {
 						appIsRunning = false;
@@ -113,24 +98,31 @@ public class AppController{
 					else if(state == 2) {
 						mainScreen.addActivity(homeActivity);
 					}
+					else if(state == 3) {
+						mainScreen.addActivity(homeActivity);
+					}
 				}
 				else if(mainScreen.getCurrentActivity() == chooseScraftActivity) {
+					if(gameIsRunning == false) {
+						gameIsRunning = true;
+						gameController = new GameController();
+						chooseScraftActivity.setGameController(gameController);
 					
-					if(!gameIsRunning) {
-						this.gameController = new GameController();
-					}
-					else {
-						chooseScraftActivity.gameNotificationHelper.addNotice(this.mainScreen.getXMouse() + " " + this.mainScreen.getYMouse());
-					}
 					
+					}
 					if(state == 3) {
-						mainScreen.addActivity(homeActivity);
 						gameIsRunning = false;
+						mainScreen.addActivity(homeActivity);
 					}
 				}
 				
+				
 			}
-			mainScreen.setIsPressedMouse(MouseState.NONE);
+//			computation logic = new computation(board);
+			// set thread to clicked
+		
+			this.mainScreen.setIsPressedMouse(MouseState.NONE);
+//			mainScreen.setIsPressedMouse(MouseState.NONE);
 			// repaint image
 			mainScreen.repaint();
 		}

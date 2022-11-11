@@ -1,6 +1,5 @@
 package button;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
@@ -18,12 +17,7 @@ public abstract class ButtonAbs extends JLabel{
 	protected int buttonHeight;
 	protected boolean isMouseOnButton;
 	
-	BufferedImage buttonImage = null;
-	
-	public void setPos(int x, int y) {
-		this.xPos = x;
-		this.yPos = y;
-	}
+	BufferedImage buttonImage;
 	
 	public int getXPos() {
 		return xPos;
@@ -64,11 +58,6 @@ public abstract class ButtonAbs extends JLabel{
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
-		if(buttonImage != null)
-			g.drawImage(buttonImage, xPos, yPos, null);
-		else {
-			g.setColor(Color.blue);
-			g.fillRect(xPos, yPos, buttonWidth, buttonHeight);
-		}
+		g.drawImage(buttonImage, xPos, yPos, null);
 	}
 }
