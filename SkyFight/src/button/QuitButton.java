@@ -26,16 +26,4 @@ public class QuitButton extends ButtonAbs implements ButtonImp{
 	public void action() {		
 		System.out.println("Quit Button");
 	}
-
-	@Override
-	public boolean checkMouseOnButton(int x, int y) {
-		return false;
-	}
-	
-	@Override
-	public void paint(Graphics g) {
-		super.paint(g);
-		g.setColor(Color.black);
-		g.fillRect(this.xPos, this.yPos, this.buttonWidth, this.buttonHeight);
-	}
 }
