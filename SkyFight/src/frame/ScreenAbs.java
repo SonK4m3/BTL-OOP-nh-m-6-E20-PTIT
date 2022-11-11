@@ -54,7 +54,6 @@ public abstract class ScreenAbs extends JFrame{
 		this.setSize(activity.getPreferredSize());
 		this.revalidate();
 		this.currentActivity = activity;
-		currentActivity.setScreen(this);
 	}
 	
 	public ActivityAbs getCurrentActivity() {

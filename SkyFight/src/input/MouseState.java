@@ -5,5 +5,6 @@ public enum MouseState {
 	LEFTPRESSED,
 	RELEASED,
 	ENTERED,
-	EXITED
+	EXITED,
+	NONE
 }

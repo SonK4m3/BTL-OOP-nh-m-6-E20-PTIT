@@ -6,11 +6,12 @@ import activities.*;
 import frame.*;
 import input.MouseState;
 
-public class AppController {
+public class AppController{
 	
-	public ImageController imageController;
+	public ImageController imageController = new ImageController();
 	
 	boolean appIsRunning;
+	boolean gameIsRunning;
 	
 	Screen mainScreen;
 	
@@ -21,43 +22,65 @@ public class AppController {
 	
 	ArrayList<ActivityAbs> listActivities = new ArrayList<ActivityAbs>();
 	
+	GameController gameController;
+	
+	public int theme = 1;
+	public int gameSize = 1;
+	public int aircraftType = 1;
+	public int boardType = 1;
+	
 	public AppController() {
 		
 	}
 	
 	public void initApp() {
 		//loading image before start game
-		imageController = new ImageController();
 		imageController.initImage();
-		
-		appIsRunning = true;
-		
+		//initial screen and activities
 		mainScreen = new Screen(this, new Activity());
-		
+				
 		homeActivity = (HomeActivity) createActivity(new HomeActivity());
 		chooseScraftActivity = (ChooseCraftActivity) createActivity(new ChooseCraftActivity());
 		optionActivity = (OptionActivity) createActivity(new OptionActivity());
-		
+			
 		mainScreen.addActivity(homeActivity);
+		
+		appIsRunning = true;
+		gameIsRunning = false;
 	}
 	
 	ActivityAbs createActivity(ActivityAbs activity) {
 		this.listActivities.add(activity);
+		activity.setScreen(mainScreen);
+		activity.update();
 		return activity;
 	}
 	
-	public void resizeAllActivities() {
-		int newWidth = optionActivity.getActivityWidth();
-		int newHeight = optionActivity.getActivityHeight();
+	public void resettingAllActivities() {
 		
 		for(ActivityAbs activity : listActivities) {
-			activity.reSize(newWidth, newHeight);			
+			if(this.gameSize == 1) {
+				activity.setSize1();
+			} else {
+				activity.setSize2();
+			}
+			if(this.theme == 1) {
+				activity.setTheme1();
+			} else {
+				activity.setTheme2();
+			}
 		}
 	}
 	
 	public void loopApp() {
 		// application loop
 		while(appIsRunning) {
+			// set thread to clicked
+			try {
+				Thread.sleep(60);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
 			//get mouse event 
 			if(mainScreen.getMouseState() == MouseState.LEFTPRESSED) {
 				//debug
@@ -74,6 +97,7 @@ public class AppController {
 					}
 					else if(state == 2) {
 						mainScreen.addActivity(optionActivity);
+						optionActivity.getCurrentSetting();
 					}				
 					else if(state == 3) {
 						appIsRunning = false;
@@ -87,24 +111,25 @@ public class AppController {
 					else if(state == 2) {
 						mainScreen.addActivity(homeActivity);
 					}
-					else if(state == 3) {
-						mainScreen.addActivity(homeActivity);
-					}
 				}
 				else if(mainScreen.getCurrentActivity() == chooseScraftActivity) {
+					
+					if(!gameIsRunning) {
+						gameIsRunning = true;
+						this.gameController = new GameController();
+					}
+					else {
+						chooseScraftActivity.gameNotificationHelper.setM(mainScreen.getXMouse() + " " + mainScreen.getYMouse());
+					}
+					
 					if(state == 3) {
+						gameIsRunning = false;
 						mainScreen.addActivity(homeActivity);
 					}
 				}
 				
-				
 			}
-			// set thread to clicked
-			try {
-				Thread.sleep(85);
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
+			mainScreen.setIsPressedMouse(MouseState.NONE);
 			// repaint image
 			mainScreen.repaint();
 		}

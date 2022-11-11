@@ -11,18 +11,19 @@ public class MyMouseListener implements MouseListener{
 	
 	private Screen myScreen;
 	
+	boolean oneClicked = false;
+	
 	public MyMouseListener(Screen myScreen) {
 		this.myScreen = myScreen;
 	}
 	
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		if(e.getButton() == MouseEvent.BUTTON1) {
+		if(e.getButton() == MouseEvent.BUTTON1 && !oneClicked) {
 			//1. get position pressed mouse
 			// pointerInfor - panel
 			int xPressedMouse = MouseInfo.getPointerInfo().getLocation().x - myScreen.getContentPane().getLocationOnScreen().x;
@@ -33,14 +34,18 @@ public class MyMouseListener implements MouseListener{
 			//2. set position to gameControl
 			//debug
 			// print position pressed mouse
-//			System.out.println(xPressedMouse + " " + yPressedMouse);		
+//			System.out.println(xPressedMouse + " " + yPressedMouse);	
+			oneClicked = true;
 		}
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		myScreen.setMousePosition(-1, -1);
-		myScreen.setIsPressedMouse(MouseState.RELEASED);
+		if(oneClicked) {	
+			myScreen.setMousePosition(-1, -1);
+			myScreen.setIsPressedMouse(MouseState.RELEASED);
+			oneClicked = false;
+		}
 	}
 
 	@Override

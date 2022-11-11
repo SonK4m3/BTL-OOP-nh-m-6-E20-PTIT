@@ -2,15 +2,32 @@ package button;
 
 import activities.*;
 
-public class DefaultButton extends SwitchActivityButton{
-
+public class DefaultButton extends ButtonAbs implements ButtonImp{
+	
+	OptionActivity optionActivity;
+	
 	public DefaultButton(ActivityAbs activity, int xPos, int yPos) {
-		super(activity, xPos, yPos);
+		this.setAcivity(activity);
+		this.xPos = xPos;
+		this.yPos = yPos;
+		this.myButton();
+		this.optionActivity = (OptionActivity) this.getActivity();
+	}
+	
+	public void setDefault() {
+		this.optionActivity.resetting();
+	}
+
+	@Override
+	public void myButton() {
+		this.buttonWidth = 150;
+		this.buttonHeight = 40;	
+		this.isMouseOnButton = false;		
 	}
 
 	@Override
 	public void action() {
-		super.action();
-		this.getActivity().setSize(960, 540);
+		// TODO Auto-generated method stub
+		
 	}
 }
