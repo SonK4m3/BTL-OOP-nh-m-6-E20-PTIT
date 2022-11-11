@@ -6,6 +6,7 @@ import java.awt.Graphics;
 
 import button.*;
 import frame.*;
+import input.MouseState;
 
 public class HomeActivity extends ActivityAbs {
 	
@@ -89,17 +90,19 @@ public class HomeActivity extends ActivityAbs {
 	
 	@Override
 	public int action(int xMouse, int yMouse) {
-		if(startButton.isPressed(xMouse, yMouse)) {
-			System.out.println("Go to Select Activity");
-			return 1;
-		}
-		if(optionButton.isPressed(xMouse, yMouse)) {
-			System.out.println("Go to Option Activity");
-			return 2;
-		}
-		if(quitButton.isPressed(xMouse, yMouse)) {
-			System.out.println("Game is quitting now...");
-			return 3;
+		if(this.screen.getMouseState() == MouseState.LEFTPRESSED) {	
+			if(startButton.isPressed(xMouse, yMouse)) {
+				System.out.println("Go to Select Activity");
+				return 1;
+			}
+			if(optionButton.isPressed(xMouse, yMouse)) {
+				System.out.println("Go to Option Activity");
+				return 2;
+			}
+			if(quitButton.isPressed(xMouse, yMouse)) {
+				System.out.println("Game is quitting now...");
+				return 3;
+			}
 		}
 		return -1;
 	}

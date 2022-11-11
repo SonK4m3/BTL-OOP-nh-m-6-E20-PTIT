@@ -6,16 +6,23 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 import button.*;
+import input.MouseState;
 import notification.*;
 
 public class ChooseCraftActivity extends ActivityAbs {
 	SwitchActivityButton backButton;
+	SwitchActivityButton flyButton;
+	ConfirmButton resetButton;
+	ConfirmButton backPlayerButton;
 	
 	int[] rec1 = new int[] {65, 40, 830, 415};
 	int[] boardLayout = new int[] {65, 40, 415, 415};
 	int[] posBoard = new int[] {122, 93};
-	int[] posMessage = new int[] {514, 93, 350, 200};
+	int[] posMessage = new int[] {514, 86, 350, 200};
 	int[] posBackButton = new int[] {714, 389};
+	int[] posFlyButton = new int[] {714, 321};
+	int[] posResetButton = new int[] {516, 321};
+	int[] posBackPlayerButton = new int[] {516, 389};
 	
 	Color rec1Color = new Color(117,213,227);
 	Color boardLayoutColor = new Color(250,252,144);
@@ -38,14 +45,21 @@ public class ChooseCraftActivity extends ActivityAbs {
 		this.setPreferredSize(new Dimension(activityWidth, activityHeight));
 		this.setBackground(new Color(255,255,255));			
 		backButton = new SwitchActivityButton(this, posBackButton[0], posBackButton[1]);
+		flyButton = new SwitchActivityButton(this, posFlyButton[0], posFlyButton[1]);
+		resetButton = new ConfirmButton(this, posResetButton[0], posResetButton[1]);
+		backPlayerButton = new ConfirmButton(this, posBackPlayerButton[0], posBackPlayerButton[1]);
+		
 		gameNotificationHelper = new GameNotificationHelper();
-		gameNotificationHelper.setPosSize(posMessage[0], posMessage[1] + 30, posMessage[2], posMessage[3]/5);
+		gameNotificationHelper.setPosSize(posMessage[0], posMessage[1] + 20, posMessage[2], posMessage[3]/5);
 	}
 
 	@Override
 	public void update() {
 		this.backgroundImage = this.screen.getImageController().blueSkyImage; 
 		backButton.setImage(this.screen.getImageController().backButtonImage);
+		flyButton.setImage(this.screen.getImageController().flyButtonImage);
+		resetButton.setImage(this.screen.getImageController().resetButtonImage);
+		backPlayerButton.setImage(this.screen.getImageController().backPlayerButtonImage);
 	}
 	
 	@Override
@@ -54,10 +68,16 @@ public class ChooseCraftActivity extends ActivityAbs {
 		rec1 = new int[] {65, 40, 830, 415};
 		boardLayout = new int[] {65, 40, 415, 415};
 		posBoard = new int[] {122, 93};
-		posMessage = new int[] {514, 93, 350, 200};
+		posMessage = new int[] {514, 86, 350, 200};
 		posBackButton = new int[] {714, 389};
-		if(gameNotificationHelper != null)
-			gameNotificationHelper.setPosSize(posMessage[0], posMessage[1] + 30, posMessage[2], posMessage[3]/6);
+		posFlyButton = new int[] {714, 321};
+		posResetButton = new int[] {516, 321};
+		posBackPlayerButton = new int[] {515, 389};
+		
+		if(gameNotificationHelper != null) {
+			gameNotificationHelper.setPosSize(posMessage[0], posMessage[1] + 20, posMessage[2], posMessage[3]/5);
+			gameNotificationHelper.setNumberMessage(4);
+		}
 		resetButton();
 	}
 	
@@ -69,13 +89,22 @@ public class ChooseCraftActivity extends ActivityAbs {
 		posBoard = new int[] {260, 191};
 		posMessage = new int[] {677, 146, 450, 300};
 		posBackButton = new int[] {977, 543};
-		if(gameNotificationHelper != null)
-			gameNotificationHelper.setPosSize(posMessage[0], posMessage[1] + 30, posMessage[2], posMessage[3]/6);
+		posFlyButton = new int[] {977,475};
+		posResetButton = new int[] {677, 474};
+		posBackPlayerButton = new int[] {677, 543};
+		
+		if(gameNotificationHelper != null) {
+			gameNotificationHelper.setPosSize(posMessage[0], posMessage[1] + 30, posMessage[2] - 1, posMessage[3]/6);
+			gameNotificationHelper.setNumberMessage(5);
+		}
 		resetButton();
 	}
 	
 	void resetButton() {
 		setButtonSize(backButton, posBackButton[0], posBackButton[1]);
+		setButtonSize(flyButton, posFlyButton[0], posFlyButton[1]);
+		setButtonSize(resetButton, posResetButton[0], posResetButton[1]);
+		setButtonSize(backPlayerButton, posBackPlayerButton[0], posBackPlayerButton[1]);
 	}
 	
 	@Override
@@ -96,10 +125,11 @@ public class ChooseCraftActivity extends ActivityAbs {
 	
 	@Override
 	public int action(int xMouse, int yMouse) {
-		if(backButton.isPressed(xMouse, yMouse)) {
+		if(backButton.isPressed(xMouse, yMouse) && this.screen.getMouseState() == MouseState.LEFTPRESSED) {
 			System.out.println("Back to Home Activity");
 			return 3;
-		}
+		} 
+		// if ....
 		
 		return -1;
 	}
@@ -121,6 +151,10 @@ public class ChooseCraftActivity extends ActivityAbs {
 		gameNotificationHelper.paint(g);
 		
 		backButton.paint(g);
+		flyButton.paint(g);
+		resetButton.paint(g);
+		// paint neu p1 da dat xong va den p2
+		backPlayerButton.paint(g);
 	}
 
 }

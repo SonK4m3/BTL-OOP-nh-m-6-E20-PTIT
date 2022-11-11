@@ -8,6 +8,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
 import button.*;
+import input.MouseState;
 
 public class OptionActivity extends ActivityAbs{
 
@@ -154,32 +155,33 @@ public class OptionActivity extends ActivityAbs{
 	
 	@Override
 	public int action(int xMouse, int yMouse) {
-		
-		if(backButton.isPressed(xMouse, yMouse)) {
-			System.out.println("Back to Home Activity");
-			return 1;
-		}
-		else if(defaultSettingButton.isPressed(xMouse, yMouse)) {
-			System.out.println("Return default option");
-			defaultSettingButton.setDefault();
-		}
-		else if(saveSettingButton.isPressed(xMouse, yMouse)) {
-			System.out.println("Save option and back to Home Activity");
-			saveSettingButton.save(theme, size, aircraftType, boardType);
-			this.screen.resettingAllActivities();
-			return 2;
-		} else {
-			if(select1[0] < xMouse && xMouse < (select1[0] + select1[2]) && select1[1] < yMouse && yMouse < (select1[1] + select1[3])) {
-				this.theme = (this.theme == 1) ? 2 : 1;
+		if(this.screen.getMouseState() == MouseState.LEFTPRESSED) {
+			if(backButton.isPressed(xMouse, yMouse)) {
+				System.out.println("Back to Home Activity");
+				return 1;
 			}
-			else if(select2[0] < xMouse && xMouse < (select2[0] + select2[2]) && select2[1] < yMouse && yMouse < (select2[1] + select2[3])) {
-				this.size = (this.size == 1) ? 2 : 1;
+			else if(defaultSettingButton.isPressed(xMouse, yMouse)) {
+				System.out.println("Return default option");
+				defaultSettingButton.setDefault();
 			}
-			else if(select3[0] < xMouse && xMouse < (select3[0] + select3[2]) && select3[1] < yMouse && yMouse < (select3[1] + select3[3])) {
-				this.aircraftType = (this.aircraftType == 1) ? 2 : 1;
-			}
-			else if(select4[0] < xMouse && xMouse < (select4[0] + select4[2]) && select4[1] < yMouse && yMouse < (select4[1] + select4[3])) {
-				this.boardType = (this.boardType == 1) ? 2 : 1;
+			else if(saveSettingButton.isPressed(xMouse, yMouse)) {
+				System.out.println("Save option and back to Home Activity");
+				saveSettingButton.save(theme, size, aircraftType, boardType);
+				this.screen.resettingAllActivities();
+				return 2;
+			} else {
+				if(select1[0] < xMouse && xMouse < (select1[0] + select1[2]) && select1[1] < yMouse && yMouse < (select1[1] + select1[3])) {
+					this.theme = (this.theme == 1) ? 2 : 1;
+				}
+				else if(select2[0] < xMouse && xMouse < (select2[0] + select2[2]) && select2[1] < yMouse && yMouse < (select2[1] + select2[3])) {
+					this.size = (this.size == 1) ? 2 : 1;
+				}
+				else if(select3[0] < xMouse && xMouse < (select3[0] + select3[2]) && select3[1] < yMouse && yMouse < (select3[1] + select3[3])) {
+					this.aircraftType = (this.aircraftType == 1) ? 2 : 1;
+				}
+				else if(select4[0] < xMouse && xMouse < (select4[0] + select4[2]) && select4[1] < yMouse && yMouse < (select4[1] + select4[3])) {
+					this.boardType = (this.boardType == 1) ? 2 : 1;
+				}
 			}
 		}
 		return -1;

@@ -31,6 +31,10 @@ public class ImageController {
 	public BufferedImage startButtonImage;
 	public BufferedImage optionButtonImage;
 	public BufferedImage backButtonImage;
+	public BufferedImage flyButtonImage;
+	public BufferedImage resetButtonImage;
+	public BufferedImage backPlayerButtonImage;
+	
 	
 	String logoPath = "image/logo.png";
 	String blueSkyPath = "image/screen/blue_sky.jpg";
@@ -55,6 +59,10 @@ public class ImageController {
 	String backButtonPath = "image/button/back_button.png";
 	String saveButtonPath = "image/button/save_button.png";
 	String defaultButtonPath = "image/button/default_button.png";
+	String flyButtonPath = "image/button/fly_button.png";
+	String resetButtonPath = "image/button/reset_button.png";
+	String backPlayerButtonPath = "image/button/back_player_button.png";
+	
 	
 	public ImageController() {
 		
@@ -78,6 +86,9 @@ public class ImageController {
 		saveButtonImage = this.readImage(saveButtonPath);
 		backButtonImage = this.readImage(backButtonPath);
 		defaultButtonImage = this.readImage(defaultButtonPath);
+		flyButtonImage = this.readImage(flyButtonPath);
+		resetButtonImage = this.readImage(resetButtonPath);
+		backPlayerButtonImage = this.readImage(backPlayerButtonPath);
 	}
 	
 	void readingAircrafts() {

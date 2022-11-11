@@ -82,7 +82,7 @@ public class AppController{
 				e.printStackTrace();
 			}
 			//get mouse event 
-			if(mainScreen.getMouseState() == MouseState.LEFTPRESSED) {
+			if(mainScreen.getMouseState() == MouseState.LEFTPRESSED || mainScreen.getMouseState() == MouseState.LEFTPRESSED) {
 				//debug
 				//print mouse position
 				System.out.println("pressed mouse position: " + mainScreen.getXMouse() + " " + mainScreen.getYMouse());
@@ -94,6 +94,8 @@ public class AppController{
 					if(state == 1) {
 						// if click switch button, we reset current activity
 						mainScreen.addActivity(chooseScraftActivity);
+						// and start initial gameLoop
+						gameIsRunning = true;
 					}
 					else if(state == 2) {
 						mainScreen.addActivity(optionActivity);
@@ -115,16 +117,15 @@ public class AppController{
 				else if(mainScreen.getCurrentActivity() == chooseScraftActivity) {
 					
 					if(!gameIsRunning) {
-						gameIsRunning = true;
 						this.gameController = new GameController();
 					}
 					else {
-						chooseScraftActivity.gameNotificationHelper.setM(mainScreen.getXMouse() + " " + mainScreen.getYMouse());
+						chooseScraftActivity.gameNotificationHelper.addNotice(this.mainScreen.getXMouse() + " " + this.mainScreen.getYMouse());
 					}
 					
 					if(state == 3) {
-						gameIsRunning = false;
 						mainScreen.addActivity(homeActivity);
+						gameIsRunning = false;
 					}
 				}
 				

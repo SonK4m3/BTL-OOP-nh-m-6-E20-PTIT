@@ -18,7 +18,7 @@ public abstract class ButtonAbs extends JLabel{
 	protected int buttonHeight;
 	protected boolean isMouseOnButton;
 	
-	BufferedImage buttonImage;
+	BufferedImage buttonImage = null;
 	
 	public void setPos(int x, int y) {
 		this.xPos = x;
