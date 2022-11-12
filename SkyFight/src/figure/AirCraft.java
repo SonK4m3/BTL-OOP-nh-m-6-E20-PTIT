@@ -1,22 +1,15 @@
 package figure;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.imageio.ImageIO;
-
 public class AirCraft extends Object{
 	int x;
 	int y;
-//	int row = 4;
-//	int column = 3;
 	boolean onBoard;
 	int create_order;
 	String current_direction;
@@ -26,6 +19,7 @@ public class AirCraft extends Object{
 	static int[] J = new int[] {0,-1,1,0,0,0,-1,1,  0,-1,-1,-1,-2,-3,-3,-3,   0,1,-1, 0, 0, 0, 1,-1,    0,1, 1,1,2,3,3, 3};
 	private HashMap<String, ArrayList<Cell>> parts_coor;
 	public ArrayDeque<String> origin_valid_direction;
+	
 	public AirCraft(int x, int y) {
 		this.x = x;
 		this.y = y; 
@@ -68,12 +62,13 @@ public class AirCraft extends Object{
 			this.parts_coor.put(direction, temp);
 		}
 	}
-	public void initImage(BufferedImage imageLeft, BufferedImage imageRight, BufferedImage imageTop, BufferedImage imageBottom) {
+	public void setImage(BufferedImage imageLeft, BufferedImage imageRight, BufferedImage imageTop, BufferedImage imageBottom) {
 		this.east_image = imageRight;
 		this.west_image = imageLeft;
 		this.south_image = imageBottom;
 		this.north_image = imageTop;
 	}
+	
 	public HashMap<String, ArrayList<Cell>> getPartsCoor(){
 		return this.parts_coor;
 	}
@@ -81,6 +76,7 @@ public class AirCraft extends Object{
 	public void setAllValidDirection(ArrayDeque<String> origin_valid_direction) {
 		this.origin_valid_direction = origin_valid_direction;
 	}
+	
 	public String getFirstValidDirection() {
 		String first = this.origin_valid_direction.pollFirst();
 		this.origin_valid_direction.addLast(first);
@@ -90,44 +86,63 @@ public class AirCraft extends Object{
 	public boolean isOnBoard() {
 		return this.onBoard;
 	}
+	
 	public void updateOnBoard(boolean bool) {
 		this.onBoard = bool;
 	}
+	
 	public Cell getHead() {
 		return this.head;
 	}
+	
 	public void setCurrentDirection(String direction) {
 		this.current_direction = direction;
 	}
+	
 	public String getCurrentDirection() {
 		return this.current_direction;
 	}
+	
 	@Override
 	public void setOxyCoor(int xPos, int yPos) {
 		super.setOxyCoor(xPos, yPos);
 	}
+	
 	public void setSize(int width, int height) {
 		this.width = width;
 		this.height = height;
 	}
+	
 	public void setPos(int x, int y) {
 		this.x = x;
 		this.y = y;
 	}
+	
+	/*
+	 * debug
+	 * 
+	 */
+	public void print() {
+		System.out.println(head.getI() + " " + head.getJ() + " " + head.value);
+		System.out.println(this.x + " " + this.y);
+	}
+	
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
-		g.setColor(Color.red);
-//		g.drawImage(this.image, x, y, null);
 		if(onBoard == true && north_image != null && south_image != null && west_image != null && east_image != null) {
 			if(this.current_direction.equals("North")) {
-				g.drawImage(north_image, this.x, this.y, null);
+				// top
+				g.drawImage(north_image, this.x - 31, this.y, null);
 			} else if(this.current_direction.equals("South")){
-				g.drawImage(south_image, this.x, this.y, null);
+				// bottom
+				g.drawImage(south_image, this.x - 31, this.y - 93, null);
 			} else if(this.current_direction.equals("West")){
-				g.drawImage(west_image, this.x, this.y, null);
+				//left
+				g.drawImage(west_image, this.x, this.y - 31, null);
 			} else {
-				g.drawImage(east_image, this.x, this.y, null);
+				//right
+				g.drawImage(east_image, this.x - 93, this.y - 31, null);
 			}
 		}
 	}

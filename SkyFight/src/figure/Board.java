@@ -33,6 +33,10 @@ public class Board extends Object{
 		
 	}
 	
+	public Cell[][] getMatrix(){
+		return this.matrix;
+	}
+	
 	public void updateMatrix(ArrayList<Cell> aircraft_parts_coor) {
 		for(Cell c : aircraft_parts_coor) {
 			this.matrix[c.getI()][c.getJ()].setValue(c.getValue());

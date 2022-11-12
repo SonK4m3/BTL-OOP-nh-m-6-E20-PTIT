@@ -70,8 +70,8 @@ public class Object extends JLabel{
 	 * @param iPos	: cot i trong ma tran cua doi tuong
 	 * @return	toa do x, y
 	 */
-	public OxyCoor convertCellToPixel(Cell c) {		
-		OxyCoor Coor = new OxyCoor(c.getJ() * 31 + x, c.getJ() * 31 + y);
+	public OxyCoor convertCellToPixel(int x, int y, Cell c) {		
+		OxyCoor Coor = new OxyCoor(c.getJ() * 31 + x, c.getI() * 31 + y);
 				//board.getWidth()
 				//board.getHeight()
 		return Coor;
