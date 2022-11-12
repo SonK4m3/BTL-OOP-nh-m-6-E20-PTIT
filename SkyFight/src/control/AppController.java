@@ -18,7 +18,7 @@ public class AppController{
 	HomeActivity homeActivity;
 	OptionActivity optionActivity;
 	ChooseCraftActivity chooseScraftActivity;
-	ActivityAbs playActivity;
+	PlayActivity playActivity;
 	
 	ArrayList<ActivityAbs> listActivities = new ArrayList<ActivityAbs>();
 	
@@ -40,9 +40,10 @@ public class AppController{
 		mainScreen = new Screen(this, new Activity());
 				
 		homeActivity = (HomeActivity) createActivity(new HomeActivity());
-		chooseScraftActivity = (ChooseCraftActivity) createActivity(new ChooseCraftActivity());
 		optionActivity = (OptionActivity) createActivity(new OptionActivity());
-			
+		chooseScraftActivity = (ChooseCraftActivity) createActivity(new ChooseCraftActivity());
+		playActivity = (PlayActivity) createActivity(new PlayActivity());	
+		
 		mainScreen.addActivity(homeActivity);
 		
 		appIsRunning = true;
@@ -56,8 +57,7 @@ public class AppController{
 		return activity;
 	}
 	
-	public void resettingAllActivities() {
-		
+	public void resetAllActivitiesOptions() {
 		for(ActivityAbs activity : listActivities) {
 			if(this.gameSize == 1) {
 				activity.setSize1();
@@ -69,6 +69,33 @@ public class AppController{
 			} else {
 				activity.setTheme2();
 			}
+		}
+	}
+	
+	void setImageBeforeStartGame() {
+		
+		if(this.gameSize == 1) {
+			gameController.setBoardPos(122, 93);
+		} else {
+			gameController.setBoardPos(260, 191);
+		}
+
+		if(this.aircraftType == 1) {
+			gameController.setAircraftImage(imageController.blueAircraftLeftImage, 
+											imageController.blueAircraftRightImage, 
+											imageController.blueAircraftTopImage, 
+											imageController.blueAircraftBottomImage);
+		} else {
+			gameController.setAircraftImage(imageController.redAircraftLeftImage, 
+											imageController.redAircraftRightImage, 
+											imageController.redAircraftTopImage, 
+											imageController.redAircraftBottomImage);
+		}
+		
+		if(this.boardType == 1) {
+			gameController.setBoardImage(imageController.board1Image);								
+		} else {
+			gameController.setBoardImage(imageController.board2Image);
 		}
 	}
 	
@@ -92,10 +119,15 @@ public class AppController{
 				// check what activity is active
 				if(mainScreen.getCurrentActivity() == homeActivity) {
 					if(state == 1) {
+						if(!gameIsRunning) {
+							gameIsRunning = true;
+							this.gameController = new GameController();
+							//initial image before start game loop
+							this.setImageBeforeStartGame();
+							chooseScraftActivity.setGameController(gameController);
+						}
 						// if click switch button, we reset current activity
 						mainScreen.addActivity(chooseScraftActivity);
-						// and start initial gameLoop
-						gameIsRunning = true;
 					}
 					else if(state == 2) {
 						mainScreen.addActivity(optionActivity);
@@ -116,19 +148,13 @@ public class AppController{
 				}
 				else if(mainScreen.getCurrentActivity() == chooseScraftActivity) {
 					
-					if(!gameIsRunning) {
-						this.gameController = new GameController();
-					}
-					else {
+					if(state == 3) {
+						gameIsRunning = false;
+						mainScreen.addActivity(homeActivity);
+					} else {
 						chooseScraftActivity.gameNotificationHelper.addNotice(this.mainScreen.getXMouse() + " " + this.mainScreen.getYMouse());
 					}
-					
-					if(state == 3) {
-						mainScreen.addActivity(homeActivity);
-						gameIsRunning = false;
-					}
 				}
-				
 			}
 			mainScreen.setIsPressedMouse(MouseState.NONE);
 			// repaint image

@@ -1,8 +1,10 @@
 package player;
 
 public enum PlayerState {
-	Playing,
-	Waiting,
-	Win,
-	Lose
+	incomplete_place,
+	complete_place,
+	shooting,
+	win,
+	lose,
+	waiting
 }

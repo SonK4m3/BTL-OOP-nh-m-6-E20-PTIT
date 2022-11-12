@@ -53,8 +53,8 @@ public class Screen extends ScreenAbs implements ScreenImp{
 		this.setLocation(x, y);
 	}
 	
-	public void resettingAllActivities() {
-		this.appController.resettingAllActivities();
+	public void resetAllActivitiesOptions() {
+		this.appController.resetAllActivitiesOptions();
 	}
 	
 	public ImageController getImageController() {

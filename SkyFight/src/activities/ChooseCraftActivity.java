@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 import button.*;
+import control.GameController;
 import input.MouseState;
 import notification.*;
 
@@ -27,7 +28,7 @@ public class ChooseCraftActivity extends ActivityAbs {
 	Color rec1Color = new Color(117,213,227);
 	Color boardLayoutColor = new Color(250,252,144);
 	
-	
+	GameController gameController;
 	public GameNotificationHelper gameNotificationHelper;
 	
 	public ChooseCraftActivity() {
@@ -128,16 +129,23 @@ public class ChooseCraftActivity extends ActivityAbs {
 		if(backButton.isPressed(xMouse, yMouse) && this.screen.getMouseState() == MouseState.LEFTPRESSED) {
 			System.out.println("Back to Home Activity");
 			return 3;
-		} 
+		} else {
+			if(gameController != null) {
+				gameController.playerPlaceAircraft(xMouse, yMouse);
+			}
+		}
 		// if ....
 		
 		return -1;
 	}
 	
+	public void setGameController(GameController gameController) {
+		this.gameController = gameController;
+	}
+	
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
-		Graphics2D g2d = (Graphics2D) g;
 		
 		g.setColor(rec1Color);
 		g.fillRect(rec1[0], rec1[1], rec1[2], rec1[3]);
@@ -153,8 +161,12 @@ public class ChooseCraftActivity extends ActivityAbs {
 		backButton.paint(g);
 		flyButton.paint(g);
 		resetButton.paint(g);
+		
 		// paint neu p1 da dat xong va den p2
 		backPlayerButton.paint(g);
+		// if gameController != null
+		gameController.getCurrentPlayerBoard().paint(g);
+		gameController.getCurrentPlayer().paintAircraft(g);
 	}
 
 }

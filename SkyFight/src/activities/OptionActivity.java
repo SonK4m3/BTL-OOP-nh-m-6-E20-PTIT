@@ -167,7 +167,7 @@ public class OptionActivity extends ActivityAbs{
 			else if(saveSettingButton.isPressed(xMouse, yMouse)) {
 				System.out.println("Save option and back to Home Activity");
 				saveSettingButton.save(theme, size, aircraftType, boardType);
-				this.screen.resettingAllActivities();
+				this.screen.resetAllActivitiesOptions();
 				return 2;
 			} else {
 				if(select1[0] < xMouse && xMouse < (select1[0] + select1[2]) && select1[1] < yMouse && yMouse < (select1[1] + select1[3])) {
