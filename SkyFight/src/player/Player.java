@@ -9,12 +9,14 @@ public class Player extends PlayerAbs{
 	
 	GameController gameController;
 	
-	public Player(GameController gameController, String name, int aircraft_limit) {
+	public Player(GameController gameController, String name, int original_aircraft) {
 		this.gameController = gameController;
 		this.name = name;
 		this.board = new Board(gameController.getXBoardPos(), gameController.getYBoardPos());
 		initInfo();
-		this.aircraft_limit = aircraft_limit;
+		this.placed_aircraft = 0;
+		this.original_aircraft = original_aircraft;
+		this.remain_aircraft = original_aircraft;
 	}
 	
 	public void setBoardImage(BufferedImage image) {
@@ -22,7 +24,7 @@ public class Player extends PlayerAbs{
 	}
 	
 	public void setAircraftImage(BufferedImage imageLeft, BufferedImage imageRight, BufferedImage imageTop, BufferedImage imageBottom) {
-		air_craft1.initImage(imageLeft, imageRight, imageTop, imageBottom);
-		air_craft2.initImage(imageLeft, imageRight, imageTop, imageBottom);
+		air_craft1.setImage(imageLeft, imageRight, imageTop, imageBottom);
+		air_craft2.setImage(imageLeft, imageRight, imageTop, imageBottom);
 	}
 }

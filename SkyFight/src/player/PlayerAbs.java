@@ -9,8 +9,8 @@ public abstract class PlayerAbs {
 	Board board;
 	PlayerState ps;
 	String name;
-	
-	int aircraft_limit;
+	int placed_aircraft;
+	int original_aircraft;
 	int remain_aircraft;
 	AirCraft air_craft1;
 	AirCraft air_craft2;
@@ -33,21 +33,27 @@ public abstract class PlayerAbs {
 	public PlayerState getState() {
 		return this.ps;
 	}
-	public void updateRemainAircraft(int remain_aircraft) {
-		this.remain_aircraft = remain_aircraft;
+	public void updatePlacedAircraft(int number) {
+		this.placed_aircraft = (number > 0) ? number : 0;
+		if(this.placed_aircraft == 0) this.setState(PlayerState.incomplete_place);
+		else this.setState(PlayerState.complete_place);
 	}
-	
+	public int getPlacedAircraft() {
+		return this.placed_aircraft;
+	}
+	public void updateRemainAircraft(int number) {
+		this.remain_aircraft = number;
+	}
 	public int getRemainAircraft() {
 		return this.remain_aircraft;
-	}
+	}	
+	
 	public AirCraft getAircraft(int index) {
-		if(index == 1) return air_craft1;
-		return air_craft2;
+		return (index == 1) ? air_craft1 : air_craft2;
 	}
 	
 	public void paintAircraft(Graphics g) {
 		air_craft1.paint(g);
 		air_craft2.paint(g);
 	}
-	
 }

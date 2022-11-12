@@ -109,7 +109,7 @@ public class AppController{
 				e.printStackTrace();
 			}
 			//get mouse event 
-			if(mainScreen.getMouseState() == MouseState.LEFTPRESSED || mainScreen.getMouseState() == MouseState.LEFTPRESSED) {
+			if(mainScreen.getMouseState() == MouseState.LEFTPRESSED || mainScreen.getMouseState() == MouseState.RIGHTPRESSED) {
 				//debug
 				//print mouse position
 				System.out.println("pressed mouse position: " + mainScreen.getXMouse() + " " + mainScreen.getYMouse());

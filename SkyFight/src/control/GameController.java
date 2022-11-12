@@ -1,27 +1,31 @@
 package control;
 
 import java.awt.image.BufferedImage;
+import java.util.ArrayDeque;
 
 import figure.Board;
+import input.MouseState;
 import player.*;
 
 public class GameController {
 	
 	boolean Finished;
-	Computation cal;
-	int current_player;
+	Computation cal = new Computation();
+	ArrayDeque<Player> turn = new ArrayDeque<>();
 	Player P1;
 	Player P2;
 	int xMouse = -1;
 	int yMouse = -1;
-	
 	int xBoardPos = 122;
 	int yBoardPos = 93;
 	
 	public GameController() {
-		current_player = 1;
 		P1 = new Player(this, "Player 1", 2);
 		P2 = new Player(this, "Player 2", 2);
+		turn.addLast(P1);
+		turn.addLast(P2);
+		
+		
 	}
 	
 	public void setBoardImage(BufferedImage boardImage) {
@@ -46,23 +50,22 @@ public class GameController {
 		this.xMouse = xMouse;
 		this.yMouse = yMouse;
 	}
-//	public String getGameState() {
-//		
-//	}
 	
-	public int currentPlayer() {
-		return this.current_player;
+	public boolean finishPlacing(Player P) {
+		if(P.getState() == PlayerState.complete_place) return true;
+		else if(P.getPlacedAircraft() == 0) {
+			P.setState(PlayerState.complete_place);
+			return true;
+		}
+		return false;
 	}
 	
 	public Player getCurrentPlayer() {
-		if(this.current_player == 1)
-			return P1;
-		else 
-			return P2;
+		return this.turn.peekFirst();
 	}
 	
 	public Board getCurrentPlayerBoard() {
-		return (this.current_player == 1) ? P1.getBoardOfPlayer() : P2.getBoardOfPlayer();
+		return this.getCurrentPlayer().getBoardOfPlayer();
 	}
 	
 	public void setBoardPos(int x, int y) {
@@ -72,24 +75,30 @@ public class GameController {
 		P2.getBoardOfPlayer().setOxyCoor(this.xBoardPos, this.yBoardPos);
 	}
 	
-	public boolean finishPlacing(Player P) {
-		if(P.getState() == PlayerState.complete_place) return true;
-		else if(P.getRemainAircraft() == 0) {
-			P.setState(PlayerState.complete_place);
-			return true;
-		}
-		return false;
-		
+	public void shootingStage(Player P1) {
+		P2 = turn.peekLast();
+		cal.shootAircraft(this.xMouse, this.yMouse, P2);
 	}
 	
-	public void shootingStage() {
-		
+	public void playerPlaceAircraft(int xMouse, int yMouse, MouseState mouseState) {
+		if(mouseState == MouseState.LEFTPRESSED)
+			cal.placeAirCraft(xMouse, yMouse, this.getCurrentPlayer());
+		else
+			cal.resetOneAircraft(xMouse, yMouse, this.getCurrentPlayer());
 	}
-	public void playerPlaceAircraft(int xMouse, int yMouse) {
-		if(cal != null) {
-			if(current_player == 1) cal.placeAirCraft(xMouse, yMouse, P1);
-			else cal.placeAirCraft(xMouse, yMouse, P2);
-		}
+	
+	public void playerResetAllAircraft() {
+		cal.resetAll(this.getCurrentPlayer());
+	}
+	
+	public void changeTurn() {
+		Player cur = turn.pollFirst();
+		turn.addLast(cur);
+	}
+	
+	public void print() {
+		Player curr = this.getCurrentPlayer();
+		System.out.println(curr.getPlayerName() + ": " + curr.getPlacedAircraft());
 	}
 	
 }

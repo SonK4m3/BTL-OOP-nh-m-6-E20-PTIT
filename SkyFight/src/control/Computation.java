@@ -7,9 +7,8 @@ import figure.*;
 import player.Player;
 
 public class Computation {
-	Board board;
 	
-	public Computation(Board board) {
+	public Computation() {
 		
 	}
 	public ArrayDeque<String> whichCanRotatable(Board board, AirCraft airCraft, Cell head) {
@@ -75,21 +74,24 @@ public class Computation {
 		 
 		return origin_valid_direction;
 	}
-	public boolean isDirectionValid(ArrayList<Cell> update_direction) {
+	
+	public boolean isDirectionValid(Board board, ArrayList<Cell> update_direction) {
 		for(Cell c : update_direction) {
 			if(c.isValid() == false || board.matrix[c.getI()][c.getJ()].getValue() != 0) return false;
 		}
 		return true;
 	}
+	
 	public AirCraft placeAirCraft(int xMouse, int yMouse, Player P){
 		
-		this.board = P.getBoardOfPlayer();
+		Board board = P.getBoardOfPlayer();
 		AirCraft airCraft = new AirCraft(-1, -1);
 		String direction = "";
 		AirCraft airCraft1 = P.getAircraft(1);
 		AirCraft airCraft2 = P.getAircraft(2);
 		ArrayList<Cell> temp = new ArrayList<>();
 		Cell pos_Click = board.convertPixcelToCell(xMouse, yMouse); // return cell
+		
 		if(pos_Click.isValid() == true) {		//kiem tra toa do click co hop le khong
 			if(airCraft1.isOnBoard()) {				//neu may bay 2 khong o tren ma tran, kiem tra may bay 1 co o tren ma tran khong
 				if(airCraft1.getHead().collide(pos_Click)) {			//neu click vao dau may bay 1 thi doi huong
@@ -101,7 +103,7 @@ public class Computation {
 					System.out.println(airCraft1.origin_valid_direction);
 					while(time < origin_valid_direction_size) {
 						direction = airCraft1.getFirstValidDirection();		//lay ra huong tiep theo
-						if(isDirectionValid(airCraft1.getPartsCoor().get(direction)) == true) break;
+						if(isDirectionValid(board, airCraft1.getPartsCoor().get(direction)) == true) break;
 						time++;
 						
 					}
@@ -115,7 +117,7 @@ public class Computation {
 						
 					}
 					board.printMatrix();
-					OxyCoor headOxyCoor = airCraft1.convertCellToPixel(airCraft1.getHead());
+					OxyCoor headOxyCoor = airCraft1.convertCellToPixel(board.getX(), board.getY(), airCraft1.getHead());
 					airCraft1.setPos(headOxyCoor.getX(), headOxyCoor.getY());
 					
 					return airCraft1;
@@ -131,7 +133,7 @@ public class Computation {
 						int origin_valid_direction_size = airCraft2.origin_valid_direction.size();
 						while(time < origin_valid_direction_size) {
 							direction = airCraft2.getFirstValidDirection();		//lay ra huong tiep theo
-							if(isDirectionValid(airCraft2.getPartsCoor().get(direction)) == true) break;
+							if(isDirectionValid(board, airCraft2.getPartsCoor().get(direction)) == true) break;
 							time++;
 						}
 						if(time == origin_valid_direction_size) {
@@ -142,7 +144,7 @@ public class Computation {
 							airCraft2.setCurrentDirection(direction);
 							board.updateMatrix(airCraft2.getPartsCoor().get(direction));  //cap nhat ma tran da co may bay 2
 						}
-						OxyCoor headOxyCoor = airCraft2.convertCellToPixel(airCraft2.getHead());
+						OxyCoor headOxyCoor = airCraft2.convertCellToPixel(board.getX(), board.getY(), airCraft2.getHead());
 						airCraft2.setPos(headOxyCoor.getX(), headOxyCoor.getY());
 						board.printMatrix();
 						return airCraft2;
@@ -162,10 +164,10 @@ public class Computation {
 					airCraft2.setCurrentDirection(direction);
 					board.updateMatrix(airCraft2.getPartsCoor().get(direction));
 					airCraft2.updateOnBoard(true);
-					OxyCoor headOxyCoor = airCraft2.convertCellToPixel(airCraft2.getHead());
+					OxyCoor headOxyCoor = airCraft2.convertCellToPixel(board.getX(), board.getY(), airCraft2.getHead());
 					airCraft2.setPos(headOxyCoor.getX(), headOxyCoor.getY());
 					board.printMatrix();
-					P.updateRemainAircraft(P.getRemainAircraft()-1);
+					P.updatePlacedAircraft(P.getPlacedAircraft()+1);
 					return airCraft2;
 				}
 			} 
@@ -182,25 +184,78 @@ public class Computation {
 				airCraft1.setCurrentDirection(direction);
 					airCraft1.updateOnBoard(true);
 				board.updateMatrix(airCraft1.getPartsCoor().get(direction));
-				OxyCoor headOxyCoor = airCraft1.convertCellToPixel(airCraft1.getHead());
+				
+				OxyCoor headOxyCoor = airCraft1.convertCellToPixel(board.getX(), board.getY(), airCraft1.getHead());
 				airCraft1.setPos(headOxyCoor.getX(), headOxyCoor.getY());
+				
 				board.printMatrix();
-				P.updateRemainAircraft(P.getRemainAircraft()-1);
+				P.updatePlacedAircraft(P.getPlacedAircraft()+1);
 				return airCraft1;
 			}
 		}
 		return null;
 	}
-	public void resetBoard() {
-		
-	}
-	public void shooting(int xMouse, int yMouse, Player P) {
-		this.board = P.getBoardOfPlayer();
-		Cell pos_Click = board.convertPixcelToCell(xMouse, yMouse);
-		if(pos_Click.isValid()) {
-//			if(board.matrix[pos_Click.getI()][pos_Click.getJ()].getValue())
+	
+	public void resetAll(Player P) {
+		for(Cell[] c : P.getBoardOfPlayer().getMatrix()) {
+			for(Cell t : c) t.setValue(0);
 		}
-				
+		P.getAircraft(1).updateOnBoard(false);
+		P.getAircraft(2).updateOnBoard(false);
+		P.getBoardOfPlayer().printMatrix();
+		P.updatePlacedAircraft(0);
 	}
 	
+	public void resetOneAircraft(int xMouse, int yMouse, Player P) {
+		Board board = P.getBoardOfPlayer();
+		Cell pos_Click = board.convertPixcelToCell(xMouse, yMouse);
+		if(pos_Click.isValid()) {
+			if(P.getAircraft(1).getHead().collide(pos_Click)) {
+				P.getAircraft(1).updateOnBoard(false);
+				board.reDirectAircraft(P.getAircraft(1).getPartsCoor().get(P.getAircraft(1).getCurrentDirection()));
+			}
+			else if(P.getAircraft(2).getHead().collide(pos_Click)) {
+				P.getAircraft(2).updateOnBoard(false);
+				board.reDirectAircraft(P.getAircraft(2).getPartsCoor().get(P.getAircraft(2).getCurrentDirection()));
+			}
+		}
+		board.printMatrix();
+		P.updatePlacedAircraft(P.getPlacedAircraft()-1);
+	}
+	
+	public String shootAircraft(int xMouse, int yMouse, Player P) {
+		String notify = "";
+		Board board = P.getBoardOfPlayer();
+		Cell pos_Click = board.convertPixcelToCell(xMouse, yMouse);
+		if(pos_Click.isValid() && board.getMatrix()[pos_Click.getI()][pos_Click.getJ()].isShooted() == false) {
+			if(P.getAircraft(1).getHead().collide(pos_Click)) {
+				notify = "head";
+				AirCraft airCraft1 = P.getAircraft(1);
+				String current_direction = airCraft1.getCurrentDirection();
+				for(Cell c : airCraft1.getPartsCoor().get(current_direction)) {
+					board.getMatrix()[c.getI()][c.getJ()].setValue(0);
+				}
+				
+			}
+			else if(P.getAircraft(2).getHead().collide(pos_Click)) {
+				notify = "head";
+				AirCraft airCraft2 = P.getAircraft(2);
+				String current_direction = airCraft2.getCurrentDirection();
+				for(Cell c : airCraft2.getPartsCoor().get(current_direction)) {
+					board.getMatrix()[c.getI()][c.getJ()].setValue(0);
+				}
+			}
+			else if(board.matrix[pos_Click.getI()][pos_Click.getJ()].getValue() == 2) {
+				notify = "parts";
+				board.getMatrix()[pos_Click.getI()][pos_Click.getJ()].setValue(0);
+			}
+			else notify = "miss";
+			board.getMatrix()[pos_Click.getI()][pos_Click.getJ()].updateShooted(true);
+		}
+		return notify;
+	}
+	public boolean gameFinished(Player P1, Player P2) {
+		if(P1.getRemainAircraft() == 0 || P2.getRemainAircraft() == 0) return true;
+		return false;
+	}
 }

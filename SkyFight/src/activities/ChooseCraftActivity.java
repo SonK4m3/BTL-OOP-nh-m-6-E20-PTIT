@@ -9,6 +9,7 @@ import button.*;
 import control.GameController;
 import input.MouseState;
 import notification.*;
+import player.PlayerState;
 
 public class ChooseCraftActivity extends ActivityAbs {
 	SwitchActivityButton backButton;
@@ -129,12 +130,28 @@ public class ChooseCraftActivity extends ActivityAbs {
 		if(backButton.isPressed(xMouse, yMouse) && this.screen.getMouseState() == MouseState.LEFTPRESSED) {
 			System.out.println("Back to Home Activity");
 			return 3;
-		} else {
-			if(gameController != null) {
-				gameController.playerPlaceAircraft(xMouse, yMouse);
+		} 
+		else if(flyButton.isPressed(xMouse, yMouse)) {
+			System.out.println("2 Player fight");
+		}
+		else if(resetButton.isPressed(xMouse, yMouse)) {
+			gameController.playerResetAllAircraft();
+			System.out.println("reset aircraft");
+		}
+		else if(backPlayerButton.isPressed(xMouse, yMouse)) {
+			if(gameController.getCurrentPlayer().getState() == PlayerState.complete_place) {
+				gameController.changeTurn();
+				System.out.println("go, back");
 			}
 		}
-		// if ....
+		else {
+			if(gameController != null) {
+				gameController.playerPlaceAircraft(xMouse, yMouse, this.screen.getMouseState());
+				gameController.print();
+				gameController.getCurrentPlayer().getAircraft(1).print();
+				gameController.getCurrentPlayer().getAircraft(2).print();
+			}
+		}
 		
 		return -1;
 	}

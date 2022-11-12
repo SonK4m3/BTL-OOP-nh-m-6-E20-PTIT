@@ -10,6 +10,7 @@ public class ConfirmButton extends ButtonAbs implements ButtonImp{
 		this.setAcivity(activity);
 		this.xPos = x;
 		this.yPos = y;
+		myButton();
 		//ac = (Class Activity) activity;
 	}
 	@Override
