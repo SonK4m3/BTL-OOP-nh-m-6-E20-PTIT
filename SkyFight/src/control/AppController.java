@@ -112,7 +112,7 @@ public class AppController{
 			if(mainScreen.getMouseState() == MouseState.LEFTPRESSED || mainScreen.getMouseState() == MouseState.RIGHTPRESSED) {
 				//debug
 				//print mouse position
-				System.out.println("pressed mouse position: " + mainScreen.getXMouse() + " " + mainScreen.getYMouse());
+//				System.out.println("pressed mouse position: " + mainScreen.getXMouse() + " " + mainScreen.getYMouse());
 				// get element is pressed in activity
 				int state = mainScreen.getCurrentActivity().action(mainScreen.getXMouse(), mainScreen.getYMouse());
 				// check each activity event
@@ -148,12 +148,17 @@ public class AppController{
 				}
 				else if(mainScreen.getCurrentActivity() == chooseScraftActivity) {
 					
-					if(state == 3) {
+					if(state == 1) {
 						gameIsRunning = false;
 						mainScreen.addActivity(homeActivity);
-					} else {
-						chooseScraftActivity.gameNotificationHelper.addNotice(this.mainScreen.getXMouse() + " " + this.mainScreen.getYMouse());
+					} else if(state == 2) {
+						playActivity.setGameController(gameController);
+						playActivity.displayHeadMessage();
+						mainScreen.addActivity(playActivity);
 					}
+				} 
+				else if(mainScreen.getCurrentActivity() == playActivity) {
+
 				}
 			}
 			mainScreen.setIsPressedMouse(MouseState.NONE);

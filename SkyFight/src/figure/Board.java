@@ -42,12 +42,13 @@ public class Board extends Object{
 			this.matrix[c.getI()][c.getJ()].setValue(c.getValue());
 		}
 	}
-	public void reDirectAircraft(ArrayList<Cell> aircraft_parts_coor) {
+	public void deleteAircraft(ArrayList<Cell> aircraft_parts_coor) {
 		for(Cell c : aircraft_parts_coor) {
 			this.matrix[c.getI()][c.getJ()].setValue(0);
 		}
 	}
 	public void printMatrix() {
+		System.out.println("----------");
 		for(int i = 0; i < row; i++) {
 			for(int j = 0; j < column; j++) {
 				System.out.print(this.matrix[i][j].getValue() + " ");

@@ -5,9 +5,10 @@ public class Cell implements Cloneable{
 	private int j;
 	int value;
 	boolean isShooted = false;
+	CellShootedState state = CellShootedState.None;
 	
 	public Cell() {
-		
+	
 	}
 	
 	public Cell(int i, int j) {
@@ -42,6 +43,26 @@ public class Cell implements Cloneable{
 		return this.value;
 	}
 	
+	public void setState(CellShootedState state) {
+		this.state = state;
+	}
+	
+	public void setHeadState() {
+		this.state = CellShootedState.Head;
+	}
+	
+	public void setPartState() {
+		this.state = CellShootedState.Part;
+	}
+	
+	public void setMissState() {
+		this.state = CellShootedState.Miss;
+	}
+	
+	public CellShootedState getState() {
+		return this.state;
+	}
+	
 	public boolean isValid() {
 		if(this.i < 0 || this.i >= Board.row) return false;
 		if(this.j < 0 || this.j >= Board.column) return false;
@@ -59,5 +80,9 @@ public class Cell implements Cloneable{
 	
 	public void updateShooted(boolean bool) {
 		this.isShooted = bool;
+	}
+	
+	public String toString() {
+		return "(" + this.j + ", " + this.i + ")";
 	}
 }

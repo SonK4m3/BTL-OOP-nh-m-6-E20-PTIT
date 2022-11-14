@@ -15,7 +15,9 @@ public class ChooseCraftActivity extends ActivityAbs {
 	SwitchActivityButton backButton;
 	SwitchActivityButton flyButton;
 	ConfirmButton resetButton;
-	ConfirmButton backPlayerButton;
+	ConfirmButton changePlayerButton;
+	
+	boolean displayButton = false;
 	
 	int[] rec1 = new int[] {65, 40, 830, 415};
 	int[] boardLayout = new int[] {65, 40, 415, 415};
@@ -24,7 +26,7 @@ public class ChooseCraftActivity extends ActivityAbs {
 	int[] posBackButton = new int[] {714, 389};
 	int[] posFlyButton = new int[] {714, 321};
 	int[] posResetButton = new int[] {516, 321};
-	int[] posBackPlayerButton = new int[] {516, 389};
+	int[] posChangePlayerButton = new int[] {516, 389};
 	
 	Color rec1Color = new Color(117,213,227);
 	Color boardLayoutColor = new Color(250,252,144);
@@ -49,7 +51,7 @@ public class ChooseCraftActivity extends ActivityAbs {
 		backButton = new SwitchActivityButton(this, posBackButton[0], posBackButton[1]);
 		flyButton = new SwitchActivityButton(this, posFlyButton[0], posFlyButton[1]);
 		resetButton = new ConfirmButton(this, posResetButton[0], posResetButton[1]);
-		backPlayerButton = new ConfirmButton(this, posBackPlayerButton[0], posBackPlayerButton[1]);
+		changePlayerButton = new ConfirmButton(this, posChangePlayerButton[0], posChangePlayerButton[1]);
 		
 		gameNotificationHelper = new GameNotificationHelper();
 		gameNotificationHelper.setPosSize(posMessage[0], posMessage[1] + 20, posMessage[2], posMessage[3]/5);
@@ -61,7 +63,7 @@ public class ChooseCraftActivity extends ActivityAbs {
 		backButton.setImage(this.screen.getImageController().backButtonImage);
 		flyButton.setImage(this.screen.getImageController().flyButtonImage);
 		resetButton.setImage(this.screen.getImageController().resetButtonImage);
-		backPlayerButton.setImage(this.screen.getImageController().backPlayerButtonImage);
+		changePlayerButton.setImage(this.screen.getImageController().nextPlayerButtonImage);
 	}
 	
 	@Override
@@ -74,7 +76,7 @@ public class ChooseCraftActivity extends ActivityAbs {
 		posBackButton = new int[] {714, 389};
 		posFlyButton = new int[] {714, 321};
 		posResetButton = new int[] {516, 321};
-		posBackPlayerButton = new int[] {515, 389};
+		posChangePlayerButton = new int[] {515, 389};
 		
 		if(gameNotificationHelper != null) {
 			gameNotificationHelper.setPosSize(posMessage[0], posMessage[1] + 20, posMessage[2], posMessage[3]/5);
@@ -93,7 +95,7 @@ public class ChooseCraftActivity extends ActivityAbs {
 		posBackButton = new int[] {977, 543};
 		posFlyButton = new int[] {977,475};
 		posResetButton = new int[] {677, 474};
-		posBackPlayerButton = new int[] {677, 543};
+		posChangePlayerButton = new int[] {677, 543};
 		
 		if(gameNotificationHelper != null) {
 			gameNotificationHelper.setPosSize(posMessage[0], posMessage[1] + 30, posMessage[2] - 1, posMessage[3]/6);
@@ -106,7 +108,7 @@ public class ChooseCraftActivity extends ActivityAbs {
 		setButtonSize(backButton, posBackButton[0], posBackButton[1]);
 		setButtonSize(flyButton, posFlyButton[0], posFlyButton[1]);
 		setButtonSize(resetButton, posResetButton[0], posResetButton[1]);
-		setButtonSize(backPlayerButton, posBackPlayerButton[0], posBackPlayerButton[1]);
+		setButtonSize(changePlayerButton, posChangePlayerButton[0], posChangePlayerButton[1]);
 	}
 	
 	@Override
@@ -129,27 +131,54 @@ public class ChooseCraftActivity extends ActivityAbs {
 	public int action(int xMouse, int yMouse) {
 		if(backButton.isPressed(xMouse, yMouse) && this.screen.getMouseState() == MouseState.LEFTPRESSED) {
 			System.out.println("Back to Home Activity");
-			return 3;
+			return 1;
 		} 
-		else if(flyButton.isPressed(xMouse, yMouse)) {
-			System.out.println("2 Player fight");
-		}
-		else if(resetButton.isPressed(xMouse, yMouse)) {
-			gameController.playerResetAllAircraft();
-			System.out.println("reset aircraft");
-		}
-		else if(backPlayerButton.isPressed(xMouse, yMouse)) {
-			if(gameController.getCurrentPlayer().getState() == PlayerState.complete_place) {
+		else if(flyButton.isPressed(xMouse, yMouse) && this.screen.getMouseState() == MouseState.LEFTPRESSED) {
+			if(gameController.twoPlayerIsCompletePlaced()) {
+//				System.out.println("2 Player fight");
 				gameController.changeTurn();
-				System.out.println("go, back");
+				gameNotificationHelper.setHeadMessage("---- " + gameController.getCurrentPlayer().getPlayerName() + " turn ----");
+				return 2;				
+			} else {
+				gameNotificationHelper.addNotice(gameController.getCurrentPlayer().getPlayerName() + " incompleted place");
+			}
+		}
+		else if(resetButton.isPressed(xMouse, yMouse) && this.screen.getMouseState() == MouseState.LEFTPRESSED) {
+			gameController.playerResetAllAircraft();
+			String notice = gameController.getCurrentPlayer().getPlayerName() + " reset all ACs";
+			gameNotificationHelper.addNotice(notice);				
+//			System.out.println("reset aircraft");
+		}
+		else if(changePlayerButton.isPressed(xMouse, yMouse) && this.screen.getMouseState() == MouseState.LEFTPRESSED) {
+			if(gameController.currentPlayerIsCompletedPlaced()) {
+				gameController.changeTurn();
+				if(!displayButton) {
+					changePlayerButton.setImage(this.screen.getImageController().backPlayerButtonImage);				
+					displayButton = true;
+				}
+				else {
+					changePlayerButton.setImage(this.screen.getImageController().nextPlayerButtonImage);
+					displayButton = false;
+				}
+//				gameNotificationHelper.initNotice();
+//				gameNotificationHelper.addNotice(gameController.getCurrentPlayer().getPlayerName() + " " + "placing");
+
+//				System.out.println("go, back");
+			} else {
+				gameNotificationHelper.addNotice(gameController.getCurrentPlayer().getPlayerName() + " incompleted place");
 			}
 		}
 		else {
 			if(gameController != null) {
-				gameController.playerPlaceAircraft(xMouse, yMouse, this.screen.getMouseState());
-				gameController.print();
-				gameController.getCurrentPlayer().getAircraft(1).print();
-				gameController.getCurrentPlayer().getAircraft(2).print();
+				String action_notify = gameController.playerPlaceAircraft(xMouse, yMouse, this.screen.getMouseState());
+//				System.out.println(gameController.getCurrentPlayerBoard().getX() + " " + gameController.getCurrentPlayerBoard().getY());
+				if(action_notify != null) {
+					String notice = gameController.getCurrentPlayer().getPlayerName() + " " + action_notify;
+					gameNotificationHelper.addNotice(notice);					
+				}
+//				gameController.print();
+//				gameController.getCurrentPlayer().getAircraft(1).print();
+//				gameController.getCurrentPlayer().getAircraft(2).print();
 			}
 		}
 		
@@ -178,10 +207,15 @@ public class ChooseCraftActivity extends ActivityAbs {
 		backButton.paint(g);
 		flyButton.paint(g);
 		resetButton.paint(g);
+		changePlayerButton.paint(g);			
 		
 		// paint neu p1 da dat xong va den p2
-		backPlayerButton.paint(g);
 		// if gameController != null
+		if(this.screen.getGameSize() == 1)
+			gameController.getCurrentPlayer().paint1(g);
+		else
+			gameController.getCurrentPlayer().paint2(g);
+		
 		gameController.getCurrentPlayerBoard().paint(g);
 		gameController.getCurrentPlayer().paintAircraft(g);
 	}

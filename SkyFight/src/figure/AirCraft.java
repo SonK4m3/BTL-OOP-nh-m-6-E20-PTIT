@@ -18,7 +18,7 @@ public class AirCraft extends Object{
 	static int[] I = new int[] {0,1,1,1,2,3, 3,3,  0,-1, 1, 0, 0, 0,-1, 1,   0,-1,-1,-1,-2,-3,-3,-3,    0,1,-1,0,0,0,1,-1};
 	static int[] J = new int[] {0,-1,1,0,0,0,-1,1,  0,-1,-1,-1,-2,-3,-3,-3,   0,1,-1, 0, 0, 0, 1,-1,    0,1, 1,1,2,3,3, 3};
 	private HashMap<String, ArrayList<Cell>> parts_coor;
-	public ArrayDeque<String> origin_valid_direction;
+	public ArrayDeque<String> all_direction = new ArrayDeque<>();
 	
 	public AirCraft(int x, int y) {
 		this.x = x;
@@ -27,6 +27,7 @@ public class AirCraft extends Object{
 	public AirCraft() {
 		updateOnBoard(false);
 		InitPartsCoor();
+		InitAllDirection();
 	}
 	
 	public void InitPartsCoor() {
@@ -41,6 +42,14 @@ public class AirCraft extends Object{
 		this.parts_coor.put("South", south);
 		this.parts_coor.put("West", west);
 	}
+	
+	public void InitAllDirection() {
+		this.all_direction.add("North");
+		this.all_direction.add("East");
+		this.all_direction.add("South");
+		this.all_direction.add("West");
+	}
+	
 	public void setPartsCoor(Cell pos_Click) {
 		int k;
 		this.head = pos_Click;
@@ -73,13 +82,9 @@ public class AirCraft extends Object{
 		return this.parts_coor;
 	}
 	
-	public void setAllValidDirection(ArrayDeque<String> origin_valid_direction) {
-		this.origin_valid_direction = origin_valid_direction;
-	}
-	
-	public String getFirstValidDirection() {
-		String first = this.origin_valid_direction.pollFirst();
-		this.origin_valid_direction.addLast(first);
+	public String getFirstDirectionInDeque() {
+		String first = all_direction.pollFirst();
+		all_direction.addLast(first);
 		return first;
 	}
 	
@@ -88,6 +93,7 @@ public class AirCraft extends Object{
 	}
 	
 	public void updateOnBoard(boolean bool) {
+		if(bool == false && this.head != null) this.head.setCoor(-1, -1);
 		this.onBoard = bool;
 	}
 	
@@ -103,19 +109,14 @@ public class AirCraft extends Object{
 		return this.current_direction;
 	}
 	
-	@Override
 	public void setOxyCoor(int xPos, int yPos) {
-		super.setOxyCoor(xPos, yPos);
+		this.x = xPos;
+		this.y = yPos;
 	}
 	
 	public void setSize(int width, int height) {
 		this.width = width;
 		this.height = height;
-	}
-	
-	public void setPos(int x, int y) {
-		this.x = x;
-		this.y = y;
 	}
 	
 	/*

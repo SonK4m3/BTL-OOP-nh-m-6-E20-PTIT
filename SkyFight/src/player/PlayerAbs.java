@@ -35,8 +35,10 @@ public abstract class PlayerAbs {
 	}
 	public void updatePlacedAircraft(int number) {
 		this.placed_aircraft = (number > 0) ? number : 0;
-		if(this.placed_aircraft == 0) this.setState(PlayerState.incomplete_place);
-		else this.setState(PlayerState.complete_place);
+		if(this.placed_aircraft == 2) 
+			this.setState(PlayerState.complete_place);
+		else 
+			this.setState(PlayerState.incomplete_place);
 	}
 	public int getPlacedAircraft() {
 		return this.placed_aircraft;

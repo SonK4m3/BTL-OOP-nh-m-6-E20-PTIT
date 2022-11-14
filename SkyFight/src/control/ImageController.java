@@ -34,7 +34,11 @@ public class ImageController {
 	public BufferedImage flyButtonImage;
 	public BufferedImage resetButtonImage;
 	public BufferedImage backPlayerButtonImage;
+	public BufferedImage nextPlayerButtonImage;
 	
+	public BufferedImage headShootImage;
+	public BufferedImage partShootImage;
+	public BufferedImage missShootImage;
 	
 	String logoPath = "image/logo.png";
 	String blueSkyPath = "image/screen/blue_sky.jpg";
@@ -62,7 +66,11 @@ public class ImageController {
 	String flyButtonPath = "image/button/fly_button.png";
 	String resetButtonPath = "image/button/reset_button.png";
 	String backPlayerButtonPath = "image/button/back_player_button.png";
+	String nextPlayerButtonPath = "image/button/next_player_button.png";
 	
+	String headShootPath = "image/hit_head.png";
+	String partShootPath = "image/hit.png";
+	String missShootPath = "image/miss.png";
 	
 	public ImageController() {
 		
@@ -89,6 +97,7 @@ public class ImageController {
 		flyButtonImage = this.readImage(flyButtonPath);
 		resetButtonImage = this.readImage(resetButtonPath);
 		backPlayerButtonImage = this.readImage(backPlayerButtonPath);
+		nextPlayerButtonImage = this.readImage(nextPlayerButtonPath);
 	}
 	
 	void readingAircrafts() {
@@ -112,7 +121,10 @@ public class ImageController {
 		logo = readImage(logoPath);
 		blueSkyImage = readImage(blueSkyPath);
 		nightSkyImage = readImage(nightSkyPath);
-
+		headShootImage = readImage(headShootPath);
+		partShootImage = readImage(partShootPath);
+		missShootImage = readImage(missShootPath);
+		
 		this.readingButtons();
 		this.readingBoard();
 		this.readingAircrafts();

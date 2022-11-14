@@ -19,43 +19,31 @@ public class GameNotificationHelper extends JLabel{
 	int height = 50;
 	
 	int numberMessage = 4;
-	
-	String m = "Start the game!";
 
+	String headMessage;
+	int xPosHeadMessage = 515;
+	int yPosHeadMessage = 321;
+		
 	Color backgroundColor = new Color(255,255,255);
 	Color textColor = Color.orange;
-	ArrayList<GameNotification> listNotification = new ArrayList<GameNotification>();
 	ArrayList<String> listMessage = new ArrayList<String>();
-	
-	private GameController gameController;
-	
+		
 	public GameNotificationHelper() {
-		listMessage.add("1");
-		listMessage.add("2");
-		listMessage.add("3");
-		listMessage.add("4");
-		listMessage.add("5");
-
-//		this.gameController = gameController;
+		this.initNotice();
 	}
 	
-	void testPaint() {
-		GameNotification note1 = new GameNotification();
-		GameNotification note2 = new GameNotification();
-		GameNotification note3 = new GameNotification();
+	public void initNotice() {
+		listMessage.clear();
+		listMessage.add("");
+		listMessage.add("");
+		listMessage.add("");
+		listMessage.add("");
+		listMessage.add("");
 	}
 	
 	public void setPos(int x, int y) {
 		this.xPos = x;
 		this.yPos = y;
-	}
-	
-	public void setM(String m) {
-		this.m = m;
-	}
-	
-	public String getM() {
-		return this.m;
 	}
 	
 	public void addNotice(String m) {
@@ -71,6 +59,20 @@ public class GameNotificationHelper extends JLabel{
 	
 	public void setNumberMessage(int num) {
 		this.numberMessage = num;
+	}
+	
+	public void setHeadMessage(String msg) {
+		this.headMessage = msg;
+	}
+	
+	public void setPosHeadMessage1() {
+		this.xPosHeadMessage = 515;
+		this.yPosHeadMessage = 321;
+	}
+	
+	public void setPosHeadMessage2() {
+		this.xPosHeadMessage = 677;
+		this.yPosHeadMessage = 470;	
 	}
 	
 	public void setTheme1() {
@@ -90,8 +92,8 @@ public class GameNotificationHelper extends JLabel{
 		Graphics2D g2 = (Graphics2D) g;
 		
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.setFont(new Font("Segoe Script", Font.BOLD + Font.ITALIC, 3*height/4));
-        
+        g2.setFont(new Font("Monospaced", Font.BOLD, 3*height/4));
+                
         for(int i = 0; i < numberMessage; i++) {
         	if(listMessage.get(i) != null && listMessage.size() >= i) {        		
         		g2.setColor(backgroundColor);
@@ -100,10 +102,20 @@ public class GameNotificationHelper extends JLabel{
         		g2.drawRect(xPos, yPos + height * i, width, height);
         		
         		g2.setColor(textColor);
-        		g2.drawString(listMessage.get(i), xPos + width/4 - 20, yPos + 3*height/4  + height * i);
+        		g2.drawString(listMessage.get(i), xPos + 20, yPos + 3*height/4  + height * i);
         	}
         }
-		
+        
+        if(headMessage != null) {        	
+        	g2.setColor(backgroundColor);
+        	g2.fillRect(xPosHeadMessage, yPosHeadMessage, width, height);
+        	g2.setColor(Color.gray);
+        	g2.drawRect(xPosHeadMessage, yPosHeadMessage, width, height);
+        	
+        	g2.setColor(textColor);
+        	g2.drawString(headMessage, xPosHeadMessage + 20, yPosHeadMessage + 3*height/4);
+        }
+        
 	}
 	
 }
