@@ -17,8 +17,14 @@ public class GameController {
 	int yBoardPos = 93;
 	
 	public GameController() {
+		System.out.println("hello");
+		this.newGame();
+	}
+	
+	public void newGame() {
 		P1 = new Player(this, "P1", 2);
 		P2 = new Player(this, "P2", 2);
+		turn.clear();
 		turn.addLast(P1);
 		turn.addLast(P2);
 	}
@@ -77,6 +83,18 @@ public class GameController {
 		return this.getCurrentPlayer().getState() == PlayerState.complete_place;
 	}
 	
+	public boolean gameFinished() {
+		return cal.gameFinished(P1, P2);
+	}
+	
+	public Player getwinner() {
+		return (P1.getState() == PlayerState.win) ? P1 : P2;
+	}
+	
+	public Player getLoser() {
+		return (P1.getState() == PlayerState.lose) ? P1 : P2;
+	}
+	
 	public boolean twoPlayerIsCompletePlaced() {
 		if ((this.P1.getState() == PlayerState.complete_place) && (this.P2.getState() == PlayerState.complete_place)){
 			P1.setState(PlayerState.shooting);
@@ -99,15 +117,15 @@ public class GameController {
 		cal.resetAll(this.getCurrentPlayer());
 	}
 	
-	public String shootingStage(int xMouse, int yMouse, Player P1) { 
-		if(P1.getState() == PlayerState.shooting) {
-			P2 = turn.peekLast();
-			String player_shooted = P1.getPlayerName() + " shoot " + P2.getPlayerName() + " ";
-			String notify = cal.shootAircraft(xMouse, yMouse, P2); 
+	public String shootingStage(int xMouse, int yMouse, Player p1) { 
+		if(p1.getState() == PlayerState.shooting) {
+			Player p2 = this.getWattingPlayer();
+			String player_shooted = p1.getPlayerName() + " shoot " + p2.getPlayerName() + " ";
+			String notify = cal.shootAircraft(xMouse, yMouse, p2); 
 			if(notify != null) {
 				notify = player_shooted + notify;
-				P1.setState(PlayerState.waiting);
-				P2.setState(PlayerState.shooting);
+				p1.setState(PlayerState.waiting);
+				p2.setState(PlayerState.shooting);
 			} else {
 				notify = "invalid shoot";
 			}
@@ -118,8 +136,9 @@ public class GameController {
 	}
 	
 	public void print() {
-		System.out.println(P1.getPlayerName() + ": " + P1.getState());
-		System.out.println(P2.getPlayerName() + ": " + P2.getState());
+		System.out.println("----");
+		System.out.println(P1.getPlayerName() + ": " + P1.getRemainAircraft());
+		System.out.println(P2.getPlayerName() + ": " + P2.getRemainAircraft());
 	}
 	
 }

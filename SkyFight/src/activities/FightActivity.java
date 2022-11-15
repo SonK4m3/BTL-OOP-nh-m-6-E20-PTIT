@@ -2,8 +2,10 @@ package activities;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 
 import button.ConfirmButton;
@@ -13,9 +15,8 @@ import figure.CellShootedState;
 import figure.OxyCoor;
 import input.MouseState;
 import notification.GameNotificationHelper;
-import player.PlayerState;
 
-public class PlayActivity extends ActivityAbs{
+public class FightActivity extends PlayActivity {
 	SwitchActivityButton backButton;
 	ConfirmButton changePlayerButton;
 
@@ -23,22 +24,16 @@ public class PlayActivity extends ActivityAbs{
 	BufferedImage hitImage;
 	BufferedImage missImage;
 
-	boolean displayButton = false;
+	Roll label = new Roll(this, 230, 123);
 	
-	int[] rec1 = new int[] {65, 40, 830, 415};
-	int[] boardLayout = new int[] {65, 40, 415, 415};
-	int[] posBoard = new int[] {122, 93};
-	int[] posMessage = new int[] {514, 86, 350, 200};
+	boolean isClickedBackButton = false;
+	
 	int[] posBackButton = new int[] {714, 389};
-	int[] posChangePlayerButton = new int[] {516, 389};
 
 	Color rec1Color = new Color(117,213,227);
 	Color boardLayoutColor = new Color(250,252,144);
 	
-	public GameNotificationHelper gameNotificationHelper;
-	GameController gameController;
-	
-	public PlayActivity() {
+	public FightActivity() {
 		this.myActivity();
 		this.init();	
 	}
@@ -68,15 +63,14 @@ public class PlayActivity extends ActivityAbs{
 		hitHeadImage = this.screen.getImageController().headShootImage;
 		hitImage = this.screen.getImageController().partShootImage;
 		missImage = this.screen.getImageController().missShootImage;
+		
+		label.update();
 	}
 	
 	@Override
 	public void setSize1() {
 		super.setSize1();
-		rec1 = new int[] {65, 40, 830, 415};
-		boardLayout = new int[] {65, 40, 415, 415};
-		posBoard = new int[] {122, 93};
-		posMessage = new int[] {514, 86, 350, 200};
+		
 		posBackButton = new int[] {714, 389};
 		posChangePlayerButton = new int[] {515, 389};
 
@@ -85,24 +79,28 @@ public class PlayActivity extends ActivityAbs{
 			gameNotificationHelper.setNumberMessage(4);
 			gameNotificationHelper.setPosHeadMessage1();
 		}
+		
+		label.setPosSize1();
+		
 		resetButton();
 	}
 	
-	@Override
+//	@Override
 	public void setSize2() {
 		super.setSize2();
-		rec1 = new int[] {115, 86, 1050, 520};
-		boardLayout = new int[] {190, 121, 450, 450};
-		posBoard = new int[] {260, 191};
-		posMessage = new int[] {677, 146, 450, 300};
+		
 		posBackButton = new int[] {977, 543};
 		posChangePlayerButton = new int[] {677, 543};
 
 		if(gameNotificationHelper != null) {
+			System.out.println(posMessage[0]);
 			gameNotificationHelper.setPosSize(posMessage[0], posMessage[1] + 30, posMessage[2] - 1, posMessage[3]/6);
 			gameNotificationHelper.setNumberMessage(5);
 			gameNotificationHelper.setPosHeadMessage2();
 		}
+		
+		label.setPosSize2();
+
 		resetButton();
 	}
 	
@@ -117,6 +115,7 @@ public class PlayActivity extends ActivityAbs{
 		rec1Color = new Color(117,213,227);
 		boardLayoutColor = new Color(250,252,144);
 		this.gameNotificationHelper.setTheme1();
+		label.setTheme1();
 	}
 
 	@Override
@@ -125,40 +124,50 @@ public class PlayActivity extends ActivityAbs{
 		rec1Color = new Color(72,52,117);
 		boardLayoutColor = new Color(36,40,70);
 		this.gameNotificationHelper.setTheme2();
+		label.setTheme2();
 	}
 	
 	@Override
 	public int action(int xMouse, int yMouse) {
+		System.out.println(posMessage[0]);
+		if(isClickedBackButton) {
+			return label.action(xMouse, yMouse);
+		}
+		
 		if(backButton.isPressed(xMouse, yMouse) && this.screen.getMouseState() == MouseState.LEFTPRESSED) {
 			System.out.println("Back to Home Activity");
 			return 3;
 		} else if(changePlayerButton.isPressed(xMouse, yMouse)) {
-//			if(gameController.getCurrentPlayer().getState() == PlayerState.waiting) {
-				gameController.changeTurn();
-				if(!displayButton) {
-					changePlayerButton.setImage(this.screen.getImageController().backPlayerButtonImage);				
-					displayButton = true;
-				}
-				else {
-					changePlayerButton.setImage(this.screen.getImageController().nextPlayerButtonImage);
-					displayButton = false;
-				}
-//			}
-		} else {			
+			gameController.changeTurn();
+			if(!displayButton) {
+				changePlayerButton.setImage(this.screen.getImageController().backPlayerButtonImage);				
+				displayButton = true;
+			}
+			else {
+				changePlayerButton.setImage(this.screen.getImageController().nextPlayerButtonImage);
+				displayButton = false;
+			}
+		}
+		else {		
 			String notify = gameController.shootingStage(xMouse, yMouse, gameController.getCurrentPlayer());
 			if(notify != null) {
 				gameNotificationHelper.addNotice(notify);			
 				this.displayHeadMessage();
 			} else {
 				gameNotificationHelper.addNotice("is not your turn");
-			}
+			}		
+			gameController.print();
 		}
 		
 		return -1;
 	}
-
-	public void setGameController(GameController gameController) {
-		this.gameController = gameController;
+	
+	public String winnerName() {
+		return gameController.getwinner().getPlayerName();
+	}
+	
+	public void setLabel(boolean bool) {
+		this.isClickedBackButton = bool;
 	}
 	
 	public void displayHeadMessage() {
@@ -205,6 +214,24 @@ public class PlayActivity extends ActivityAbs{
 				}
 			}
 		}
+		Graphics2D g2 = (Graphics2D) g;
+		
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setFont(new Font("Monospaced", Font.BOLD, 25));
+                
+        g2.setColor(Color.gray);
+        
+		for(int i = 0; i < 10; i++) {
+			g2.drawString(Integer.toString(i + 1), posBoard[0] - 30, posBoard[1] + 23 + i * 31);			
+		}
+		for(int i = 0; i < 10; i++) {
+			g2.drawString(Integer.toString(i + 1), posBoard[0] + 6 + i * 31, posBoard[1] + 25 + 310);			
+		}
+		
+		if(isClickedBackButton) {
+			label.paint(g);
+		}
+		
 	}
 
 }

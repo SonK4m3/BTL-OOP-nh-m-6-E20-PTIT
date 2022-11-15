@@ -2,8 +2,10 @@ package activities;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 
 import button.*;
 import control.GameController;
@@ -11,28 +13,14 @@ import input.MouseState;
 import notification.*;
 import player.PlayerState;
 
-public class ChooseCraftActivity extends ActivityAbs {
+public class ChooseCraftActivity extends PlayActivity {
 	SwitchActivityButton backButton;
 	SwitchActivityButton flyButton;
 	ConfirmButton resetButton;
-	ConfirmButton changePlayerButton;
 	
-	boolean displayButton = false;
-	
-	int[] rec1 = new int[] {65, 40, 830, 415};
-	int[] boardLayout = new int[] {65, 40, 415, 415};
-	int[] posBoard = new int[] {122, 93};
-	int[] posMessage = new int[] {514, 86, 350, 200};
 	int[] posBackButton = new int[] {714, 389};
 	int[] posFlyButton = new int[] {714, 321};
 	int[] posResetButton = new int[] {516, 321};
-	int[] posChangePlayerButton = new int[] {516, 389};
-	
-	Color rec1Color = new Color(117,213,227);
-	Color boardLayoutColor = new Color(250,252,144);
-	
-	GameController gameController;
-	public GameNotificationHelper gameNotificationHelper;
 	
 	public ChooseCraftActivity() {
 		this.myActivity();
@@ -69,38 +57,32 @@ public class ChooseCraftActivity extends ActivityAbs {
 	@Override
 	public void setSize1() {
 		super.setSize1();
-		rec1 = new int[] {65, 40, 830, 415};
-		boardLayout = new int[] {65, 40, 415, 415};
-		posBoard = new int[] {122, 93};
-		posMessage = new int[] {514, 86, 350, 200};
+		
 		posBackButton = new int[] {714, 389};
 		posFlyButton = new int[] {714, 321};
 		posResetButton = new int[] {516, 321};
-		posChangePlayerButton = new int[] {515, 389};
 		
 		if(gameNotificationHelper != null) {
 			gameNotificationHelper.setPosSize(posMessage[0], posMessage[1] + 20, posMessage[2], posMessage[3]/5);
 			gameNotificationHelper.setNumberMessage(4);
 		}
+		
 		resetButton();
 	}
 	
 	@Override
 	public void setSize2() {
 		super.setSize2();
-		rec1 = new int[] {115, 86, 1050, 520};
-		boardLayout = new int[] {190, 121, 450, 450};
-		posBoard = new int[] {260, 191};
-		posMessage = new int[] {677, 146, 450, 300};
+		
 		posBackButton = new int[] {977, 543};
 		posFlyButton = new int[] {977,475};
 		posResetButton = new int[] {677, 474};
-		posChangePlayerButton = new int[] {677, 543};
 		
 		if(gameNotificationHelper != null) {
 			gameNotificationHelper.setPosSize(posMessage[0], posMessage[1] + 30, posMessage[2] - 1, posMessage[3]/6);
 			gameNotificationHelper.setNumberMessage(5);
 		}
+		
 		resetButton();
 	}
 	
@@ -110,7 +92,7 @@ public class ChooseCraftActivity extends ActivityAbs {
 		setButtonSize(resetButton, posResetButton[0], posResetButton[1]);
 		setButtonSize(changePlayerButton, posChangePlayerButton[0], posChangePlayerButton[1]);
 	}
-	
+
 	@Override
 	public void setTheme1() {
 		this.backgroundImage = this.screen.getImageController().blueSkyImage; 
@@ -140,7 +122,7 @@ public class ChooseCraftActivity extends ActivityAbs {
 				gameNotificationHelper.setHeadMessage("---- " + gameController.getCurrentPlayer().getPlayerName() + " turn ----");
 				return 2;				
 			} else {
-				gameNotificationHelper.addNotice(gameController.getCurrentPlayer().getPlayerName() + " incompleted place");
+				gameNotificationHelper.addNotice("Incompleted place");
 			}
 		}
 		else if(resetButton.isPressed(xMouse, yMouse) && this.screen.getMouseState() == MouseState.LEFTPRESSED) {
@@ -160,12 +142,9 @@ public class ChooseCraftActivity extends ActivityAbs {
 					changePlayerButton.setImage(this.screen.getImageController().nextPlayerButtonImage);
 					displayButton = false;
 				}
-//				gameNotificationHelper.initNotice();
-//				gameNotificationHelper.addNotice(gameController.getCurrentPlayer().getPlayerName() + " " + "placing");
-
 //				System.out.println("go, back");
 			} else {
-				gameNotificationHelper.addNotice(gameController.getCurrentPlayer().getPlayerName() + " incompleted place");
+				gameNotificationHelper.addNotice(gameController.getCurrentPlayer().getPlayerName() + " not enough ACs");
 			}
 		}
 		else {
@@ -176,17 +155,10 @@ public class ChooseCraftActivity extends ActivityAbs {
 					String notice = gameController.getCurrentPlayer().getPlayerName() + " " + action_notify;
 					gameNotificationHelper.addNotice(notice);					
 				}
-//				gameController.print();
-//				gameController.getCurrentPlayer().getAircraft(1).print();
-//				gameController.getCurrentPlayer().getAircraft(2).print();
 			}
 		}
 		
 		return -1;
-	}
-	
-	public void setGameController(GameController gameController) {
-		this.gameController = gameController;
 	}
 	
 	@Override
@@ -218,6 +190,19 @@ public class ChooseCraftActivity extends ActivityAbs {
 		
 		gameController.getCurrentPlayerBoard().paint(g);
 		gameController.getCurrentPlayer().paintAircraft(g);
+		
+		Graphics2D g2 = (Graphics2D) g;
+		
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setFont(new Font("Monospaced", Font.BOLD, 25));
+                
+        g2.setColor(Color.gray);
+		for(int i = 0; i < 10; i++) {
+			g2.drawString(Integer.toString(i + 1), posBoard[0] - 30, posBoard[1] + 23 + i * 31);			
+		}
+		for(int i = 0; i < 10; i++) {
+			g2.drawString(Integer.toString(i + 1), posBoard[0] + 6 + i * 31, posBoard[1] + 25 + 310);			
+		}
 	}
 
 }

@@ -45,6 +45,9 @@ public abstract class PlayerAbs {
 	}
 	public void updateRemainAircraft(int number) {
 		this.remain_aircraft = number;
+		if(this.remain_aircraft == 0) {
+			this.setState(PlayerState.lose);
+		}
 	}
 	public int getRemainAircraft() {
 		return this.remain_aircraft;

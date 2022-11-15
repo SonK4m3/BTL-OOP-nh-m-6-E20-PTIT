@@ -101,7 +101,7 @@ public class HomeActivity extends ActivityAbs {
 			}
 			if(quitButton.isPressed(xMouse, yMouse)) {
 				System.out.println("Game is quitting now...");
-				return 3;
+				quitButton.action();
 			}
 		}
 		return -1;

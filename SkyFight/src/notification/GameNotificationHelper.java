@@ -26,30 +26,34 @@ public class GameNotificationHelper extends JLabel{
 		
 	Color backgroundColor = new Color(255,255,255);
 	Color textColor = Color.orange;
-	ArrayList<String> listMessage = new ArrayList<String>();
+	ArrayList<String> listNotices = new ArrayList<String>();
 		
 	public GameNotificationHelper() {
 		this.initNotice();
 	}
 	
+	/*
+	 * initial empty list notification to display
+	 */
 	public void initNotice() {
-		listMessage.clear();
-		listMessage.add("");
-		listMessage.add("");
-		listMessage.add("");
-		listMessage.add("");
-		listMessage.add("");
+		listNotices.clear();
+		listNotices.add("");
+		listNotices.add("");
+		listNotices.add("");
+		listNotices.add("");
+		listNotices.add("");
 	}
-	
-	public void setPos(int x, int y) {
-		this.xPos = x;
-		this.yPos = y;
-	}
-	
+
+	/*
+	 * add notice to first of list notices
+	 */
 	public void addNotice(String m) {
-		this.listMessage.add(0, m);
+		this.listNotices.add(0, m);
 	}
 	
+	/*
+	 * set position and size of message notification in ativity
+	 */
 	public void setPosSize(int x, int y, int w, int h) {
 		this.xPos = x;
 		this.yPos = y;
@@ -60,11 +64,17 @@ public class GameNotificationHelper extends JLabel{
 	public void setNumberMessage(int num) {
 		this.numberMessage = num;
 	}
-	
+	/*
+	 * numbers of list message will show
+	 */
 	public void setHeadMessage(String msg) {
 		this.headMessage = msg;
 	}
 	
+	/*
+	 * 	change position of head message
+	 * 
+	 */
 	public void setPosHeadMessage1() {
 		this.xPosHeadMessage = 515;
 		this.yPosHeadMessage = 321;
@@ -75,6 +85,10 @@ public class GameNotificationHelper extends JLabel{
 		this.yPosHeadMessage = 470;	
 	}
 	
+	/*
+	 * change theme color, style
+	 * 
+	 */
 	public void setTheme1() {
 		backgroundColor = new Color(255,255,255);
 		textColor = Color.orange;
@@ -88,24 +102,23 @@ public class GameNotificationHelper extends JLabel{
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
-		
 		Graphics2D g2 = (Graphics2D) g;
-		
+		// 1. set font and size of text
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setFont(new Font("Monospaced", Font.BOLD, 3*height/4));
-                
+        // 2. display message panel and list notification      
         for(int i = 0; i < numberMessage; i++) {
-        	if(listMessage.get(i) != null && listMessage.size() >= i) {        		
+        	if(listNotices.get(i) != null && listNotices.size() >= i) {        		
         		g2.setColor(backgroundColor);
         		g2.fillRect(xPos, yPos + height * i, width, height);
         		g2.setColor(Color.gray);
         		g2.drawRect(xPos, yPos + height * i, width, height);
         		
         		g2.setColor(textColor);
-        		g2.drawString(listMessage.get(i), xPos + 20, yPos + 3*height/4  + height * i);
+        		g2.drawString(listNotices.get(i), xPos + 20, yPos + 3*height/4  + height * i);
         	}
         }
-        
+        // 3. display turn of player
         if(headMessage != null) {        	
         	g2.setColor(backgroundColor);
         	g2.fillRect(xPosHeadMessage, yPosHeadMessage, width, height);

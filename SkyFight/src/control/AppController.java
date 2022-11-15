@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import activities.*;
 import frame.*;
 import input.MouseState;
+import notification.GameNotificationHelper;
 
 public class AppController{
 	
@@ -18,7 +19,7 @@ public class AppController{
 	HomeActivity homeActivity;
 	OptionActivity optionActivity;
 	ChooseCraftActivity chooseScraftActivity;
-	PlayActivity playActivity;
+	FightActivity fightActivity;
 	
 	ArrayList<ActivityAbs> listActivities = new ArrayList<ActivityAbs>();
 	
@@ -42,7 +43,7 @@ public class AppController{
 		homeActivity = (HomeActivity) createActivity(new HomeActivity());
 		optionActivity = (OptionActivity) createActivity(new OptionActivity());
 		chooseScraftActivity = (ChooseCraftActivity) createActivity(new ChooseCraftActivity());
-		playActivity = (PlayActivity) createActivity(new PlayActivity());	
+		fightActivity = (FightActivity) createActivity(new FightActivity());	
 		
 		mainScreen.addActivity(homeActivity);
 		
@@ -59,11 +60,15 @@ public class AppController{
 	
 	public void resetAllActivitiesOptions() {
 		for(ActivityAbs activity : listActivities) {
+			if(activity.getClass() == PlayActivity.class)
+				activity = (PlayActivity) activity;
+			
 			if(this.gameSize == 1) {
 				activity.setSize1();
 			} else {
 				activity.setSize2();
 			}
+			
 			if(this.theme == 1) {
 				activity.setTheme1();
 			} else {
@@ -133,10 +138,6 @@ public class AppController{
 						mainScreen.addActivity(optionActivity);
 						optionActivity.getCurrentSetting();
 					}				
-					else if(state == 3) {
-						appIsRunning = false;
-						System.exit(0);
-					}
 				}
 				else if(mainScreen.getCurrentActivity() == optionActivity) {
 					if(state == 1) {
@@ -152,13 +153,28 @@ public class AppController{
 						gameIsRunning = false;
 						mainScreen.addActivity(homeActivity);
 					} else if(state == 2) {
-						playActivity.setGameController(gameController);
-						playActivity.displayHeadMessage();
-						mainScreen.addActivity(playActivity);
+						fightActivity.setGameController(gameController);
+						fightActivity.displayHeadMessage();
+						mainScreen.addActivity(fightActivity);
 					}
 				} 
-				else if(mainScreen.getCurrentActivity() == playActivity) {
-
+				else if(mainScreen.getCurrentActivity() == fightActivity) {
+					if(gameController.gameFinished()) {
+						fightActivity.setLabel(true);
+						chooseScraftActivity.gameNotificationHelper.setHeadMessage(null);
+					}
+					
+					if(state == 1) {
+						gameIsRunning = false;
+						fightActivity.setLabel(false);
+						mainScreen.addActivity(homeActivity);
+					} 
+					else if(state == 2) {
+						fightActivity.setLabel(false);
+						gameController.newGame();
+						this.setImageBeforeStartGame();
+						mainScreen.addActivity(chooseScraftActivity);
+					}
 				}
 			}
 			mainScreen.setIsPressedMouse(MouseState.NONE);

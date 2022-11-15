@@ -17,6 +17,9 @@ public abstract class ActivityAbs extends JPanel{
 	public final static int WIDTH2 = 1280;
 	public final static int HEIGHT2 = 720;
 	
+	int xPos = 0;
+	int yPos = 0;
+	
 	int activityWidth;
 	int activityHeight;
 	
@@ -96,7 +99,7 @@ public abstract class ActivityAbs extends JPanel{
 	public void paint(Graphics g) {
 		super.paint(g);
 		if(backgroundImage != null) {
-			g.drawImage(backgroundImage, 0, 0, this.activityWidth, this.activityHeight, null);
+			g.drawImage(backgroundImage, xPos, yPos, this.activityWidth, this.activityHeight, null);
 		}
 	}
 

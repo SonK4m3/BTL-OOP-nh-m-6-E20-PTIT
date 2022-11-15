@@ -35,11 +35,16 @@ public class ImageController {
 	public BufferedImage resetButtonImage;
 	public BufferedImage backPlayerButtonImage;
 	public BufferedImage nextPlayerButtonImage;
-	
+	public BufferedImage homeButtonImage;
+	public BufferedImage newGameButtonImage;
+
 	public BufferedImage headShootImage;
 	public BufferedImage partShootImage;
 	public BufferedImage missShootImage;
 	
+	public BufferedImage endGame1Image;
+	public BufferedImage endGame2Image;
+
 	String logoPath = "image/logo.png";
 	String blueSkyPath = "image/screen/blue_sky.jpg";
 	String nightSkyPath = "image/screen/night_sky.jpg";
@@ -67,11 +72,16 @@ public class ImageController {
 	String resetButtonPath = "image/button/reset_button.png";
 	String backPlayerButtonPath = "image/button/back_player_button.png";
 	String nextPlayerButtonPath = "image/button/next_player_button.png";
-	
+	String homeButtonPath = "image/button/home_button.png";
+	String newGameButtonPath = "image/button/new_game_button.png";
+
 	String headShootPath = "image/hit_head.png";
 	String partShootPath = "image/hit.png";
 	String missShootPath = "image/miss.png";
 	
+	String endGame1Path = "image/end_game_notify.png";
+	String endGame2Path = "image/end_game_notify_2.png";
+
 	public ImageController() {
 		
 	}
@@ -98,6 +108,8 @@ public class ImageController {
 		resetButtonImage = this.readImage(resetButtonPath);
 		backPlayerButtonImage = this.readImage(backPlayerButtonPath);
 		nextPlayerButtonImage = this.readImage(nextPlayerButtonPath);
+		homeButtonImage = this.readImage(homeButtonPath);
+		newGameButtonImage = this.readImage(newGameButtonPath);
 	}
 	
 	void readingAircrafts() {
@@ -124,7 +136,9 @@ public class ImageController {
 		headShootImage = readImage(headShootPath);
 		partShootImage = readImage(partShootPath);
 		missShootImage = readImage(missShootPath);
-		
+		endGame1Image = readImage(endGame1Path);
+		endGame2Image = readImage(endGame2Path);
+
 		this.readingButtons();
 		this.readingBoard();
 		this.readingAircrafts();

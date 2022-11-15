@@ -24,6 +24,6 @@ public class QuitButton extends ButtonAbs implements ButtonImp{
 
 	@Override
 	public void action() {		
-		System.out.println("Quit Button");
+		System.exit(0);
 	}
 }
