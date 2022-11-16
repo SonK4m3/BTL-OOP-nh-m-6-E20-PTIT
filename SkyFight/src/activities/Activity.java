@@ -2,12 +2,9 @@ package activities;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
 
 public class Activity extends ActivityAbs{
 	
-	private static final long serialVersionUID = 1L;
-
 	public Activity() {
 		this.myActivity();
 		this.init();

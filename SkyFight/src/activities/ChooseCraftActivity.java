@@ -8,14 +8,12 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
 import button.*;
-import control.GameController;
 import input.MouseState;
 import notification.*;
-import player.PlayerState;
 
 public class ChooseCraftActivity extends PlayActivity {
-	SwitchActivityButton backButton;
-	SwitchActivityButton flyButton;
+	ConfirmButton backButton;
+	ConfirmButton flyButton;
 	ConfirmButton resetButton;
 	
 	int[] posBackButton = new int[] {714, 389};
@@ -36,8 +34,8 @@ public class ChooseCraftActivity extends PlayActivity {
 	public void init() {
 		this.setPreferredSize(new Dimension(activityWidth, activityHeight));
 		this.setBackground(new Color(255,255,255));			
-		backButton = new SwitchActivityButton(this, posBackButton[0], posBackButton[1]);
-		flyButton = new SwitchActivityButton(this, posFlyButton[0], posFlyButton[1]);
+		backButton = new ConfirmButton(this, posBackButton[0], posBackButton[1]);
+		flyButton = new ConfirmButton(this, posFlyButton[0], posFlyButton[1]);
 		resetButton = new ConfirmButton(this, posResetButton[0], posResetButton[1]);
 		changePlayerButton = new ConfirmButton(this, posChangePlayerButton[0], posChangePlayerButton[1]);
 		
@@ -112,13 +110,15 @@ public class ChooseCraftActivity extends PlayActivity {
 	@Override
 	public int action(int xMouse, int yMouse) {
 		if(backButton.isPressed(xMouse, yMouse) && this.screen.getMouseState() == MouseState.LEFTPRESSED) {
-			System.out.println("Back to Home Activity");
+			// back to home activity
+//			System.out.println("Back to Home Activity");
 			return 1;
 		} 
 		else if(flyButton.isPressed(xMouse, yMouse) && this.screen.getMouseState() == MouseState.LEFTPRESSED) {
+			// go to fight activity
 			if(gameController.twoPlayerIsCompletePlaced()) {
-//				System.out.println("2 Player fight");
 				gameController.changeTurn();
+				// show player turn
 				gameNotificationHelper.setHeadMessage("---- " + gameController.getCurrentPlayer().getPlayerName() + " turn ----");
 				return 2;				
 			} else {
@@ -126,12 +126,13 @@ public class ChooseCraftActivity extends PlayActivity {
 			}
 		}
 		else if(resetButton.isPressed(xMouse, yMouse) && this.screen.getMouseState() == MouseState.LEFTPRESSED) {
+			// reset aircraft player
 			gameController.playerResetAllAircraft();
 			String notice = gameController.getCurrentPlayer().getPlayerName() + " reset all ACs";
 			gameNotificationHelper.addNotice(notice);				
-//			System.out.println("reset aircraft");
 		}
 		else if(changePlayerButton.isPressed(xMouse, yMouse) && this.screen.getMouseState() == MouseState.LEFTPRESSED) {
+			// change player phrase
 			if(gameController.currentPlayerIsCompletedPlaced()) {
 				gameController.changeTurn();
 				if(!displayButton) {
@@ -142,15 +143,14 @@ public class ChooseCraftActivity extends PlayActivity {
 					changePlayerButton.setImage(this.screen.getImageController().nextPlayerButtonImage);
 					displayButton = false;
 				}
-//				System.out.println("go, back");
 			} else {
 				gameNotificationHelper.addNotice(gameController.getCurrentPlayer().getPlayerName() + " not enough ACs");
 			}
 		}
 		else {
+			// place aircraft
 			if(gameController != null) {
 				String action_notify = gameController.playerPlaceAircraft(xMouse, yMouse, this.screen.getMouseState());
-//				System.out.println(gameController.getCurrentPlayerBoard().getX() + " " + gameController.getCurrentPlayerBoard().getY());
 				if(action_notify != null) {
 					String notice = gameController.getCurrentPlayer().getPlayerName() + " " + action_notify;
 					gameNotificationHelper.addNotice(notice);					
@@ -181,7 +181,6 @@ public class ChooseCraftActivity extends PlayActivity {
 		resetButton.paint(g);
 		changePlayerButton.paint(g);			
 		
-		// paint neu p1 da dat xong va den p2
 		// if gameController != null
 		if(this.screen.getGameSize() == 1)
 			gameController.getCurrentPlayer().paint1(g);
@@ -192,7 +191,7 @@ public class ChooseCraftActivity extends PlayActivity {
 		gameController.getCurrentPlayer().paintAircraft(g);
 		
 		Graphics2D g2 = (Graphics2D) g;
-		
+		// draw index of board
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setFont(new Font("Monospaced", Font.BOLD, 25));
                 

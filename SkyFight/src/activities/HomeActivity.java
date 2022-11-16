@@ -5,13 +5,12 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 
 import button.*;
-import frame.*;
 import input.MouseState;
 
 public class HomeActivity extends ActivityAbs {
 	
-	SwitchActivityButton startButton;
-	SwitchActivityButton optionButton;
+	ConfirmButton startButton;
+	ConfirmButton optionButton;
 	QuitButton quitButton;
 	
 	int[] posLogo = new int[] {200, 50, 560, 230};
@@ -35,8 +34,8 @@ public class HomeActivity extends ActivityAbs {
 		this.setPreferredSize(new Dimension(this.activityWidth, this.activityHeight));
 		this.setBackground(new Color(255,255,255));
 		
-		startButton = new SwitchActivityButton(this, 415, 312);
-		optionButton = new SwitchActivityButton(this, 415, 358);
+		startButton = new ConfirmButton(this, 415, 312);
+		optionButton = new ConfirmButton(this, 415, 358);
 		quitButton = new QuitButton(this, 415, 404);
 	}
 	
@@ -92,15 +91,15 @@ public class HomeActivity extends ActivityAbs {
 	public int action(int xMouse, int yMouse) {
 		if(this.screen.getMouseState() == MouseState.LEFTPRESSED) {	
 			if(startButton.isPressed(xMouse, yMouse)) {
-				System.out.println("Go to Select Activity");
+//				System.out.println("Go to Select Activity");
 				return 1;
 			}
 			if(optionButton.isPressed(xMouse, yMouse)) {
-				System.out.println("Go to Option Activity");
+//				System.out.println("Go to Option Activity");
 				return 2;
 			}
 			if(quitButton.isPressed(xMouse, yMouse)) {
-				System.out.println("Game is quitting now...");
+//				System.out.println("Game is quitting now...");
 				quitButton.action();
 			}
 		}

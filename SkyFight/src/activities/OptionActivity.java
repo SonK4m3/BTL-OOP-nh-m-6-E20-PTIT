@@ -12,7 +12,7 @@ import input.MouseState;
 
 public class OptionActivity extends ActivityAbs{
 
-	SwitchActivityButton backButton;
+	ConfirmButton backButton;
 	DefaultButton defaultSettingButton;
 	SaveButton saveSettingButton;
 	
@@ -61,7 +61,7 @@ public class OptionActivity extends ActivityAbs{
 		this.setPreferredSize(new Dimension(this.activityWidth, this.activityHeight));
 		this.setBackground(new Color(255,255,255));	
 		
-		backButton = new SwitchActivityButton(this, 170, 390);
+		backButton = new ConfirmButton(this, 170, 390);
 		defaultSettingButton = new DefaultButton(this, 405, 390);
 		saveSettingButton = new SaveButton(this, 640, 390);
 	}
@@ -225,7 +225,7 @@ public class OptionActivity extends ActivityAbs{
 		
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setFont(new Font("Segoe Script", Font.BOLD + Font.ITALIC, 30));
-        
+        // draw option and select
         g2d.setColor(Color.black);
         g2d.drawString("Theme", xOptionText, yOptionText[0]);
         g2d.drawString("Size", xOptionText, yOptionText[1]);

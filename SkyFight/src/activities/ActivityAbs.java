@@ -19,13 +19,12 @@ public abstract class ActivityAbs extends JPanel{
 	
 	int xPos = 0;
 	int yPos = 0;
-	
 	int activityWidth;
 	int activityHeight;
-	
-	Screen screen;
-	
+		
 	BufferedImage backgroundImage;
+	
+	protected Screen screen;
 	
 	public void setScreen(ScreenAbs screenAbs) {
 		this.screen = (Screen) screenAbs;
@@ -86,13 +85,21 @@ public abstract class ActivityAbs extends JPanel{
 	public void setBackgroundImage(BufferedImage image) {
 		this.backgroundImage = image;
 	}
-	
+	/*
+	 * return event of player in this activity
+	 */
 	public abstract int action(int xMouse, int yMouse);
-	
+	/*
+	 * initial properties and components
+	 */
 	public abstract void myActivity();
-	
+	/*
+	 * setup this panel
+	 */
 	public abstract void init();
-		
+	/*
+	 * update image
+	 */
 	public abstract void update();
 	
 	@Override

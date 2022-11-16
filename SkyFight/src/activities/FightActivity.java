@@ -9,15 +9,13 @@ import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 
 import button.ConfirmButton;
-import button.SwitchActivityButton;
-import control.GameController;
 import figure.CellShootedState;
 import figure.OxyCoor;
 import input.MouseState;
 import notification.GameNotificationHelper;
 
 public class FightActivity extends PlayActivity {
-	SwitchActivityButton backButton;
+	ConfirmButton backButton;
 	ConfirmButton changePlayerButton;
 
 	BufferedImage hitHeadImage;
@@ -25,9 +23,11 @@ public class FightActivity extends PlayActivity {
 	BufferedImage missImage;
 
 	Roll label = new Roll(this, 230, 123);
+	PauseRoll pause = new PauseRoll(this, 230, 123);
 	
+	boolean isGameFinished = false;
 	boolean isClickedBackButton = false;
-	
+		
 	int[] posBackButton = new int[] {714, 389};
 
 	Color rec1Color = new Color(117,213,227);
@@ -47,7 +47,7 @@ public class FightActivity extends PlayActivity {
 	public void init() {
 		this.setPreferredSize(new Dimension(activityWidth, activityHeight));
 		this.setBackground(new Color(255,255,255));			
-		backButton = new SwitchActivityButton(this, posBackButton[0], posBackButton[1]);
+		backButton = new ConfirmButton(this, posBackButton[0], posBackButton[1]);
 		changePlayerButton = new ConfirmButton(this, posChangePlayerButton[0], posChangePlayerButton[1]);
 
 		gameNotificationHelper = new GameNotificationHelper();
@@ -65,6 +65,7 @@ public class FightActivity extends PlayActivity {
 		missImage = this.screen.getImageController().missShootImage;
 		
 		label.update();
+		pause.update();
 	}
 	
 	@Override
@@ -81,7 +82,7 @@ public class FightActivity extends PlayActivity {
 		}
 		
 		label.setPosSize1();
-		
+		pause.setPosSize1();
 		resetButton();
 	}
 	
@@ -100,7 +101,7 @@ public class FightActivity extends PlayActivity {
 		}
 		
 		label.setPosSize2();
-
+		pause.setPosSize2();
 		resetButton();
 	}
 	
@@ -116,6 +117,7 @@ public class FightActivity extends PlayActivity {
 		boardLayoutColor = new Color(250,252,144);
 		this.gameNotificationHelper.setTheme1();
 		label.setTheme1();
+		pause.setTheme1();
 	}
 
 	@Override
@@ -125,30 +127,39 @@ public class FightActivity extends PlayActivity {
 		boardLayoutColor = new Color(36,40,70);
 		this.gameNotificationHelper.setTheme2();
 		label.setTheme2();
+		pause.setTheme2();
 	}
 	
 	@Override
 	public int action(int xMouse, int yMouse) {
-		System.out.println(posMessage[0]);
-		if(isClickedBackButton) {
+		// win game roll
+		if(isGameFinished) {
 			return label.action(xMouse, yMouse);
+		}
+		// pause game roll
+		if(isClickedBackButton) {
+			return pause.action(xMouse, yMouse);
 		}
 		
 		if(backButton.isPressed(xMouse, yMouse) && this.screen.getMouseState() == MouseState.LEFTPRESSED) {
-			System.out.println("Back to Home Activity");
-			return 3;
-		} else if(changePlayerButton.isPressed(xMouse, yMouse)) {
+			if(!isClickedBackButton) {
+				isClickedBackButton = true;
+			}
+		} 
+		else if(changePlayerButton.isPressed(xMouse, yMouse) && this.screen.getMouseState() == MouseState.LEFTPRESSED) {
+			// change player phrase
 			gameController.changeTurn();
 			if(!displayButton) {
-				changePlayerButton.setImage(this.screen.getImageController().backPlayerButtonImage);				
+				changePlayerButton.setImage(this.screen.getImageController().nextPlayerButtonImage);				
 				displayButton = true;
 			}
 			else {
-				changePlayerButton.setImage(this.screen.getImageController().nextPlayerButtonImage);
+				changePlayerButton.setImage(this.screen.getImageController().backPlayerButtonImage);
 				displayButton = false;
 			}
 		}
 		else {		
+			// player shoot
 			String notify = gameController.shootingStage(xMouse, yMouse, gameController.getCurrentPlayer());
 			if(notify != null) {
 				gameNotificationHelper.addNotice(notify);			
@@ -156,7 +167,6 @@ public class FightActivity extends PlayActivity {
 			} else {
 				gameNotificationHelper.addNotice("is not your turn");
 			}		
-			gameController.print();
 		}
 		
 		return -1;
@@ -167,7 +177,19 @@ public class FightActivity extends PlayActivity {
 	}
 	
 	public void setLabel(boolean bool) {
+		this.isGameFinished = bool;
+	}
+	
+	public boolean isLabelOn() {
+		return this.isGameFinished;
+	}
+	
+	public void setIsClickedBackButton(boolean bool) {
 		this.isClickedBackButton = bool;
+	}
+	
+	public boolean getIsClickedBackButton() {
+		return this.isClickedBackButton;
 	}
 	
 	public void displayHeadMessage() {
@@ -191,15 +213,16 @@ public class FightActivity extends PlayActivity {
 		
 		backButton.paint(g);
 		changePlayerButton.paint(g);
-		
+		// draw turn player notification
 		if(this.screen.getGameSize() == 1)
 			gameController.getCurrentPlayer().paint1(g);
 		else
 			gameController.getCurrentPlayer().paint2(g);
-		
+		// draw board
 		gameController.getWaitingPlayerBoard().paint(g);
 		for(int i = 0; i < 10; i ++) {
 			for(int j = 0; j < 10; j++) {
+				// draw cell state
 				if(gameController.getWaitingPlayerBoard().getMatrix()[i][j].isShooted()) {
 					OxyCoor xy = gameController.getWaitingPlayerBoard().convertCellToPixel(
 							gameController.getWaitingPlayerBoard().getX(), 
@@ -220,18 +243,21 @@ public class FightActivity extends PlayActivity {
         g2.setFont(new Font("Monospaced", Font.BOLD, 25));
                 
         g2.setColor(Color.gray);
-        
+        // draw index of board
 		for(int i = 0; i < 10; i++) {
 			g2.drawString(Integer.toString(i + 1), posBoard[0] - 30, posBoard[1] + 23 + i * 31);			
 		}
 		for(int i = 0; i < 10; i++) {
 			g2.drawString(Integer.toString(i + 1), posBoard[0] + 6 + i * 31, posBoard[1] + 25 + 310);			
 		}
-		
-		if(isClickedBackButton) {
+		// draw win game roll
+		if(isGameFinished) {
 			label.paint(g);
 		}
-		
+		// draw pause game
+		if(isClickedBackButton) {
+			pause.paint(g);
+		}
 	}
 
 }

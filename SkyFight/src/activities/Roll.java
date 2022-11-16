@@ -6,13 +6,12 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
-import button.QuitButton;
-import button.SwitchActivityButton;
+import button.*;
 
 public class Roll extends ActivityAbs{
 	
-	SwitchActivityButton newGameButton;
-	SwitchActivityButton homeButton;
+	ConfirmButton newGameButton;
+	ConfirmButton homeButton;
 	QuitButton quitButton;
 	
 	FightActivity playActivity;
@@ -73,8 +72,8 @@ public class Roll extends ActivityAbs{
 
 	@Override
 	public void init() {
-		homeButton = new SwitchActivityButton(this, posHomeButton[0], posHomeButton[1]);
-		newGameButton = new SwitchActivityButton(this, posNewGameButton[0], posNewGameButton[1]);
+		homeButton = new ConfirmButton(this, posHomeButton[0], posHomeButton[1]);
+		newGameButton = new ConfirmButton(this, posNewGameButton[0], posNewGameButton[1]);
 		quitButton = new QuitButton(this, posQuitButton[0], posQuitButton[1]);
 
 	}
