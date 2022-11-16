@@ -1,6 +1,5 @@
 package button;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
@@ -10,8 +9,6 @@ import activities.ActivityAbs;
 
 public abstract class ButtonAbs extends JLabel{
 	
-	private ActivityAbs activity;
-	
 	protected int xPos;
 	protected int yPos;
 	protected int buttonWidth;
@@ -20,10 +17,22 @@ public abstract class ButtonAbs extends JLabel{
 	
 	BufferedImage buttonImage = null;
 	
+	private ActivityAbs activity;
+	
 	public void setPos(int x, int y) {
 		this.xPos = x;
 		this.yPos = y;
 	}
+	/*
+	 * initial properties of this button
+	 */
+	abstract void myButton();
+	/*
+	 * click button and action
+	 */
+	public void action() {
+		System.out.println("this button");
+	};
 	
 	public int getXPos() {
 		return xPos;
@@ -45,6 +54,16 @@ public abstract class ButtonAbs extends JLabel{
 		this.buttonImage = image;
 	}
 	
+	protected void setAcivity(ActivityAbs newActivity) {
+		this.activity = newActivity;
+	}
+	
+	protected ActivityAbs getActivity() {
+		return this.activity;
+	}
+	/*
+	 * check button is pressed
+	 */
 	public boolean isPressed(int xPos, int yPos) {
 		if(xPos >= this.xPos && xPos <= (this.xPos + this.buttonWidth) && 
 				yPos >= this.yPos && yPos <= (this.yPos + this.buttonHeight)) {
@@ -53,22 +72,10 @@ public abstract class ButtonAbs extends JLabel{
 		return false;
 	}
 	
-	protected void setAcivity(ActivityAbs newActivity) {
-		this.activity = newActivity;
-	}
-	
-	protected ActivityAbs getActivity() {
-		return this.activity;
-	}
-	
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
 		if(buttonImage != null)
 			g.drawImage(buttonImage, xPos, yPos, null);
-		else {
-			g.setColor(Color.blue);
-			g.fillRect(xPos, yPos, buttonWidth, buttonHeight);
-		}
 	}
 }

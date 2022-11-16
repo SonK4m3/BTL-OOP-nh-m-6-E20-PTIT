@@ -1,13 +1,8 @@
 package button;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
-
 import activities.ActivityAbs;
 
-public class QuitButton extends ButtonAbs implements ButtonImp{
+public class QuitButton extends ButtonAbs {
 	public QuitButton(ActivityAbs activity, int xPos, int yPos) {
 		this.setAcivity(activity);
 		this.xPos = xPos;

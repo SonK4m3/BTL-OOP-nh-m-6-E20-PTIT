@@ -2,7 +2,7 @@ package button;
 
 import activities.*;
 
-public class DefaultButton extends ButtonAbs implements ButtonImp{
+public class DefaultButton extends ButtonAbs {
 	
 	OptionActivity optionActivity;
 	
@@ -23,11 +23,5 @@ public class DefaultButton extends ButtonAbs implements ButtonImp{
 		this.buttonWidth = 150;
 		this.buttonHeight = 40;	
 		this.isMouseOnButton = false;		
-	}
-
-	@Override
-	public void action() {
-		// TODO Auto-generated method stub
-		
 	}
 }

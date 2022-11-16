@@ -2,12 +2,11 @@ package button;
 
 import activities.*;
 
-public class SaveButton extends SwitchActivityButton{
+public class SaveButton extends ConfirmButton{
 
 	public SaveButton(ActivityAbs activity, int xPos, int yPos) {
 		super(activity, xPos, yPos);
 	}
-	
 	
 	public void save(int theme, int size, int air, int board) {
 		this.getActivity().getScreen().setTheme(theme);
