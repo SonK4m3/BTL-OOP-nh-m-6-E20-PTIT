@@ -17,7 +17,7 @@ public class AirCraft extends Object{
 	static int[] I = new int[] {0,1,1,1,2,3, 3,3,  0,-1, 1, 0, 0, 0,-1, 1,   0,-1,-1,-1,-2,-3,-3,-3,    0,1,-1,0,0,0,1,-1};
 	static int[] J = new int[] {0,-1,1,0,0,0,-1,1,  0,-1,-1,-1,-2,-3,-3,-3,   0,1,-1, 0, 0, 0, 1,-1,    0,1, 1,1,2,3,3, 3};
 	private HashMap<String, ArrayList<Cell>> parts_coor;
-	public ArrayDeque<String> all_direction = new ArrayDeque<>();
+	private ArrayDeque<String> all_direction = new ArrayDeque<>();
 	
 	public AirCraft() {
 		updateOnBoard(false);
