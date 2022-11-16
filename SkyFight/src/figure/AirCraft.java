@@ -10,7 +10,6 @@ import java.util.Map;
 public class AirCraft extends Object{
 
 	boolean onBoard;
-	int create_order;
 	String current_direction;
 	Cell head;
 	BufferedImage north_image, east_image, south_image, west_image;
