@@ -3,9 +3,9 @@ package figure;
 public class Cell implements Cloneable{
 	private int i;
 	private int j;
-	int value;
-	boolean isShooted = false;
-	CellShootedState state = CellShootedState.None;
+	protected int value;
+	private boolean isShooted = false;
+	private CellShootedState state = CellShootedState.None;
 	
 	public Cell() {
 	
@@ -63,12 +63,17 @@ public class Cell implements Cloneable{
 		return this.state;
 	}
 	
+	/*
+	 * check cell is in board matrix or not
+	 */
 	public boolean isValid() {
 		if(this.i < 0 || this.i >= Board.row) return false;
 		if(this.j < 0 || this.j >= Board.column) return false;
 		return true;
 	}
-	
+	/*
+	 * check cell is clicked or not
+	 */
 	public boolean collide(Cell c) {
 		if(this.i == c.getI() && this.j == c.getJ()) return true;
 		return false;
@@ -80,9 +85,5 @@ public class Cell implements Cloneable{
 	
 	public void updateShooted(boolean bool) {
 		this.isShooted = bool;
-	}
-	
-	public String toString() {
-		return "(" + this.j + ", " + this.i + ")";
 	}
 }

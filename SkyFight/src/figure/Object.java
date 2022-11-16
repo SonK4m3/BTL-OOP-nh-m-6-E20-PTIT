@@ -5,15 +5,12 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JLabel;
 
-public class Object extends JLabel{
+public abstract class Object extends JLabel{
 	int x;		
 	int y;		
-	
 	int width;
 	int height;	
-	
 	public Cell[][] matrix;		
-	
 	BufferedImage image = null;	
 
 	/** tra ve toa do x cua doi tuong
@@ -75,10 +72,6 @@ public class Object extends JLabel{
 				//board.getWidth()
 				//board.getHeight()
 		return Coor;
-	}
-	
-	public Cell pressedCell(int xPos, int yPos) {		// ?
-		return matrix[xPos][yPos];
 	}
 	
 	public void setImage(BufferedImage image) {

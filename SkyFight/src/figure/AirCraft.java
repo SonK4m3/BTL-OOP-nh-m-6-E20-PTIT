@@ -8,8 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AirCraft extends Object{
-	int x;
-	int y;
+
 	boolean onBoard;
 	int create_order;
 	String current_direction;
@@ -20,10 +19,6 @@ public class AirCraft extends Object{
 	private HashMap<String, ArrayList<Cell>> parts_coor;
 	public ArrayDeque<String> all_direction = new ArrayDeque<>();
 	
-	public AirCraft(int x, int y) {
-		this.x = x;
-		this.y = y; 
-	}
 	public AirCraft() {
 		updateOnBoard(false);
 		InitPartsCoor();
@@ -43,6 +38,9 @@ public class AirCraft extends Object{
 		this.parts_coor.put("West", west);
 	}
 	
+	/*
+	 * initial name of direction
+	 */
 	public void InitAllDirection() {
 		this.all_direction.add("North");
 		this.all_direction.add("East");
@@ -50,6 +48,9 @@ public class AirCraft extends Object{
 		this.all_direction.add("West");
 	}
 	
+	/*
+	 *  check each state to put valid state to list
+	 */
 	public void setPartsCoor(Cell pos_Click) {
 		int k;
 		this.head = pos_Click;
@@ -119,18 +120,10 @@ public class AirCraft extends Object{
 		this.height = height;
 	}
 	
-	/*
-	 * debug
-	 * 
-	 */
-	public void print() {
-		System.out.println(head.getI() + " " + head.getJ() + " " + head.value);
-		System.out.println(this.x + " " + this.y);
-	}
-	
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
+		// draw aircraft with each state image
 		if(onBoard == true && north_image != null && south_image != null && west_image != null && east_image != null) {
 			if(this.current_direction.equals("North")) {
 				// top
