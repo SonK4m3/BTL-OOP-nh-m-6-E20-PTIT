@@ -10,37 +10,51 @@ public class Computation {
 	public Computation() {
 		
 	}
-
+	
+	/*
+	 * check direction is valid or not
+	 */
 	public boolean isDirectionValid(Board board, ArrayList<Cell> update_direction) {
 		for(Cell c : update_direction) {
+			// check cell is empty to place 
 			if(c.isValid() == false || board.matrix[c.getI()][c.getJ()].getValue() != 0) return false;
 		}
 		return true;
 	}
-	
+	/*
+	 * check aircraft can place in this position of board
+	 */
 	public String isAircraftCanBePlace(AirCraft airCraft, Board board) {
 		int time = 1;
 		int max_loop_time = 5;
 		String direction = "";
+		// loop for all directions
 		while(time < max_loop_time) {
 			direction = airCraft.getFirstDirectionInDeque();	
 			if(isDirectionValid(board, airCraft.getPartsCoor().get(direction)) == true) break;
 			time++;
 		}
+		// no valid direction
 		if(time == max_loop_time) return "";
 		return direction;
-			
 	}
 	
+	/*
+	 * place aircraft in position player choose
+	 * return result to player
+	 */
 	public String placeAirCraft(int xMouse, int yMouse, Player P){
-		
+		//1. get player board to place aircraft
 		Board board = P.getBoardOfPlayer();
+		//2. initial valid direction of aircraft and aircrafts
 		String direction = "";
 		AirCraft airCraft1 = P.getAircraft(1);
 		AirCraft airCraft2 = P.getAircraft(2);
+		//3. template of aircraft to get valid directions
 		ArrayList<Cell> temp = new ArrayList<>();
+		//4. convert pixel position to cell position
 		Cell pos_Click = board.convertPixcelToCell(xMouse, yMouse); // return cell
-		
+		//5. start check can place aircraft or rotate aircraft
 		if(pos_Click.isValid() == true) {		//kiem tra toa do click co hop le khong
 			
 			if(!airCraft1.isOnBoard() && !airCraft2.isOnBoard()) {
@@ -195,6 +209,9 @@ public class Computation {
 		return "can't place";
 	}
 	
+	/*
+	 * reset 2 aircrafts of player
+	 */
 	public void resetAll(Player P) {
 		for(Cell[] c : P.getBoardOfPlayer().getMatrix()) {
 			for(Cell t : c) t.setValue(0);
@@ -204,34 +221,53 @@ public class Computation {
 		P.getBoardOfPlayer().printMatrix();
 		P.updatePlacedAircraft(0);
 	}
-	
+	/*
+	 * reset aircraft to not placed
+	 * return result to player
+	 */
 	public String resetOneAircraft(int xMouse, int yMouse, Player P) {
+		//1. get player board to update value
 		Board board = P.getBoardOfPlayer();
+		//2. get cell is clicked
 		Cell pos_Click = board.convertPixcelToCell(xMouse, yMouse);
 		String notice = null;
+		//3. if cell is valid 
 		if(pos_Click.isValid()) {
+			// check is head or not
 			if(P.getAircraft(1).getHead().collide(pos_Click)) {
+				// set aircraft is not on board
 				P.getAircraft(1).updateOnBoard(false);
+				// delete board value
 				board.deleteAircraft(P.getAircraft(1).getPartsCoor().get(P.getAircraft(1).getCurrentDirection()));
+				// decrease placed aircraft
 				P.updatePlacedAircraft(P.getPlacedAircraft()-1);
 				notice = "remove AC 1";
 			}
+			// do the same with aircraft 2
 			else if(P.getAircraft(2).getHead().collide(pos_Click)) {
 				P.getAircraft(2).updateOnBoard(false);
 				board.deleteAircraft(P.getAircraft(2).getPartsCoor().get(P.getAircraft(2).getCurrentDirection()));
 				P.updatePlacedAircraft(P.getPlacedAircraft()-1);
 				notice = "remove AC 2";
 			}
-			board.printMatrix();
+			// debug
+//			board.printMatrix();
 		}
 		return notice;
 	}
 	
+	/*
+	 *  check cell is shot and return result to player
+	 */
 	public String shootAircraft(int xMouse, int yMouse, Player P) {
 		String notify = "miss";
+		// 1. get board of player is being shot
 		Board board = P.getBoardOfPlayer();
+		// 2. convert pixel position to cell position 
 		Cell pos_Click = board.convertPixcelToCell(xMouse, yMouse);
+		// 3. check cell is valid or not and is not shot
 		if(pos_Click.isValid() && board.getMatrix()[pos_Click.getI()][pos_Click.getJ()].isShooted() == false) {
+			// if shot to head
 			if(P.getAircraft(1).getHead().collide(pos_Click)) {
 				notify = "head";
 				AirCraft airCraft1 = P.getAircraft(1);
@@ -252,17 +288,21 @@ public class Computation {
 				board.getMatrix()[pos_Click.getI()][pos_Click.getJ()].setHeadState();
 				P.updateRemainAircraft(P.getRemainAircraft() - 1);
 			}
+			// if shot to part
 			else if(board.matrix[pos_Click.getI()][pos_Click.getJ()].getValue() == 1) {
 				notify = "part";
 				board.getMatrix()[pos_Click.getI()][pos_Click.getJ()].setValue(0);
 				board.getMatrix()[pos_Click.getI()][pos_Click.getJ()].setPartState();;
 
 			}
+			// if shot miss
 			else {
 				board.getMatrix()[pos_Click.getI()][pos_Click.getJ()].setMissState();
 				notify = "miss";
 			}
+			// 4. update cell state
 			board.getMatrix()[pos_Click.getI()][pos_Click.getJ()].updateShooted(true);
+			// 5. update player state to next turn
 			P.setState(PlayerState.shooting);
 		} else {
 			return null;
@@ -270,6 +310,10 @@ public class Computation {
 		return notify;
 	}
 	
+	/*
+	 * check game is finished or not
+	 * and update player state win or lose
+	 */
 	public boolean gameFinished(Player P1, Player P2) {
 		if(P1.getRemainAircraft() == 0) {
 			P2.setState(PlayerState.win);

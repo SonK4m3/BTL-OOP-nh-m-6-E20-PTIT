@@ -37,7 +37,8 @@ public class ImageController {
 	public BufferedImage nextPlayerButtonImage;
 	public BufferedImage homeButtonImage;
 	public BufferedImage newGameButtonImage;
-
+	public BufferedImage continueButtonImage;
+	
 	public BufferedImage headShootImage;
 	public BufferedImage partShootImage;
 	public BufferedImage missShootImage;
@@ -45,6 +46,10 @@ public class ImageController {
 	public BufferedImage endGame1Image;
 	public BufferedImage endGame2Image;
 
+	public BufferedImage pause1Image;
+	public BufferedImage pause2Image;
+
+	
 	String logoPath = "image/logo.png";
 	String blueSkyPath = "image/screen/blue_sky.jpg";
 	String nightSkyPath = "image/screen/night_sky.jpg";
@@ -74,21 +79,27 @@ public class ImageController {
 	String nextPlayerButtonPath = "image/button/next_player_button.png";
 	String homeButtonPath = "image/button/home_button.png";
 	String newGameButtonPath = "image/button/new_game_button.png";
-
+	String continueButtonPath = "image/button/continue_button.png";
+	
 	String headShootPath = "image/hit_head.png";
 	String partShootPath = "image/hit.png";
 	String missShootPath = "image/miss.png";
 	
-	String endGame1Path = "image/end_game_notify.png";
-	String endGame2Path = "image/end_game_notify_2.png";
+	String endGame1Path = "image/screen/end_game_notify.png";
+	String endGame2Path = "image/screen/end_game_notify_2.png";
+	
+	String pause1Path = "image/screen/pause_1.png";
+	String pause2Path = "image/screen/pause_2.png";
 
 	public ImageController() {
 		
 	}
 	
+	/*
+	 * read image from file and return read image
+	 */
 	BufferedImage readImage(String filename) {
 		BufferedImage img = null;
-		
 		try {
 			img = ImageIO.read(new File(filename));
 		} catch (Exception e) {
@@ -98,47 +109,56 @@ public class ImageController {
 	}
 	
 	void readingButtons() {
-		quitButtonImage = this.readImage(quitButtonPath);
-		startButtonImage = this.readImage(startButtonPath);
-		optionButtonImage = this.readImage(optionButtonPath);
-		saveButtonImage = this.readImage(saveButtonPath);
-		backButtonImage = this.readImage(backButtonPath);
-		defaultButtonImage = this.readImage(defaultButtonPath);
-		flyButtonImage = this.readImage(flyButtonPath);
-		resetButtonImage = this.readImage(resetButtonPath);
-		backPlayerButtonImage = this.readImage(backPlayerButtonPath);
-		nextPlayerButtonImage = this.readImage(nextPlayerButtonPath);
-		homeButtonImage = this.readImage(homeButtonPath);
-		newGameButtonImage = this.readImage(newGameButtonPath);
+		quitButtonImage = readImage(quitButtonPath);
+		startButtonImage = readImage(startButtonPath);
+		optionButtonImage = readImage(optionButtonPath);
+		saveButtonImage = readImage(saveButtonPath);
+		backButtonImage = readImage(backButtonPath);
+		defaultButtonImage = readImage(defaultButtonPath);
+		flyButtonImage = readImage(flyButtonPath);
+		resetButtonImage = readImage(resetButtonPath);
+		backPlayerButtonImage = readImage(backPlayerButtonPath);
+		nextPlayerButtonImage = readImage(nextPlayerButtonPath);
+		homeButtonImage = readImage(homeButtonPath);
+		newGameButtonImage = readImage(newGameButtonPath);
+		continueButtonImage = readImage(continueButtonPath);
 	}
 	
 	void readingAircrafts() {
-		blueAircraftBottomImage = this.readImage(blueAircraftBottomPath);
-		blueAircraftLeftImage = this.readImage(blueAircraftLeftPath);
-		blueAircraftRightImage = this.readImage(blueAircraftRightPath);
-		blueAircraftTopImage = this.readImage(blueAircraftTopPath);
+		blueAircraftBottomImage = readImage(blueAircraftBottomPath);
+		blueAircraftLeftImage = readImage(blueAircraftLeftPath);
+		blueAircraftRightImage = readImage(blueAircraftRightPath);
+		blueAircraftTopImage = readImage(blueAircraftTopPath);
 		
-		redAircraftBottomImage = this.readImage(redAircraftBottomPath);
-		redAircraftLeftImage = this.readImage(redAircraftLeftPath);
-		redAircraftRightImage = this.readImage(redAircraftRightPath);
-		redAircraftTopImage = this.readImage(redAircraftTopPath);
+		redAircraftBottomImage = readImage(redAircraftBottomPath);
+		redAircraftLeftImage = readImage(redAircraftLeftPath);
+		redAircraftRightImage = readImage(redAircraftRightPath);
+		redAircraftTopImage = readImage(redAircraftTopPath);
 	}
 	
 	void readingBoard() {
-		board1Image = this.readImage(board1Path);
-		board2Image = this.readImage(board2Path);
+		board1Image = readImage(board1Path);
+		board2Image = readImage(board2Path);
+	}
+	
+	void readScreen() {
+		blueSkyImage = readImage(blueSkyPath);
+		nightSkyImage = readImage(nightSkyPath);
+		endGame1Image = readImage(endGame1Path);
+		endGame2Image = readImage(endGame2Path);
+		pause1Image = readImage(pause1Path);
+		pause2Image = readImage(pause2Path);
 	}
 	
 	public void initImage() {
+		// logo image
 		logo = readImage(logoPath);
-		blueSkyImage = readImage(blueSkyPath);
-		nightSkyImage = readImage(nightSkyPath);
+		// cell state image
 		headShootImage = readImage(headShootPath);
 		partShootImage = readImage(partShootPath);
 		missShootImage = readImage(missShootPath);
-		endGame1Image = readImage(endGame1Path);
-		endGame2Image = readImage(endGame2Path);
-
+		
+		this.readScreen();
 		this.readingButtons();
 		this.readingBoard();
 		this.readingAircrafts();
