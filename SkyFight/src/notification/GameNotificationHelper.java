@@ -9,15 +9,12 @@ import java.util.ArrayList;
 
 import javax.swing.JLabel;
 
-import control.*;
-
 public class GameNotificationHelper extends JLabel{
 	
 	int xPos = -1;
 	int yPos = -1;
 	int width = 100;
 	int height = 50;
-	
 	int numberMessage = 4;
 
 	String headMessage;
@@ -52,7 +49,7 @@ public class GameNotificationHelper extends JLabel{
 	}
 	
 	/*
-	 * set position and size of message notification in ativity
+	 * set position and size of message notification in activity
 	 */
 	public void setPosSize(int x, int y, int w, int h) {
 		this.xPos = x;
