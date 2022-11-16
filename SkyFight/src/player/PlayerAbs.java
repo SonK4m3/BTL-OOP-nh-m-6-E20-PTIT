@@ -1,20 +1,24 @@
 package player;
 
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
 
 import figure.*;
 
 public abstract class PlayerAbs {
-	Board board;
-	PlayerState ps;
 	String name;
+	PlayerState ps;
 	int placed_aircraft;
 	int original_aircraft;
 	int remain_aircraft;
-	AirCraft air_craft1;
-	AirCraft air_craft2;
+
+	protected Board board;
+	protected AirCraft air_craft1;
+	protected AirCraft air_craft2;
 	
+	/*
+	 * player create aircraft before start game
+	 * 
+	 */
 	public void initInfo() {
 		ps = PlayerState.incomplete_place;
 		air_craft1 = new AirCraft();
@@ -24,15 +28,22 @@ public abstract class PlayerAbs {
 	public String getPlayerName() {
 		return this.name;
 	}
+	
 	public Board getBoardOfPlayer() {
 		return this.board;
 	}
+	
 	public void setState(PlayerState state) {
 		this.ps = state;
 	}
+	
 	public PlayerState getState() {
 		return this.ps;
 	}
+	
+	/*
+	 * set placed aircraft and update player state
+	 */
 	public void updatePlacedAircraft(int number) {
 		this.placed_aircraft = (number > 0) ? number : 0;
 		if(this.placed_aircraft == 2) 
@@ -40,15 +51,20 @@ public abstract class PlayerAbs {
 		else 
 			this.setState(PlayerState.incomplete_place);
 	}
+	
 	public int getPlacedAircraft() {
 		return this.placed_aircraft;
 	}
+	/*
+	 * set remain aircraft and update player state
+	 */
 	public void updateRemainAircraft(int number) {
 		this.remain_aircraft = number;
 		if(this.remain_aircraft == 0) {
 			this.setState(PlayerState.lose);
 		}
 	}
+	
 	public int getRemainAircraft() {
 		return this.remain_aircraft;
 	}	

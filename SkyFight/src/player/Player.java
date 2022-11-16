@@ -11,12 +11,10 @@ import control.GameController;
 import figure.Board;
 
 public class Player extends PlayerAbs{
-	
-	GameController gameController;
 
 	public Player(GameController gameController, String name, int original_aircraft) {
-		this.gameController = gameController;
 		this.name = name;
+		// set position of board following screen size
 		this.board = new Board(gameController.getXBoardPos(), gameController.getYBoardPos());
 		initInfo();
 		this.placed_aircraft = 0;
@@ -29,10 +27,13 @@ public class Player extends PlayerAbs{
 	}
 	
 	public void setAircraftImage(BufferedImage imageLeft, BufferedImage imageRight, BufferedImage imageTop, BufferedImage imageBottom) {
-		air_craft1.setImage(imageLeft, imageRight, imageTop, imageBottom);
-		air_craft2.setImage(imageLeft, imageRight, imageTop, imageBottom);
+		this.air_craft1.setImage(imageLeft, imageRight, imageTop, imageBottom);
+		this.air_craft2.setImage(imageLeft, imageRight, imageTop, imageBottom);
 	}
 	
+	/*
+	 * paint player's board name with size 1
+	 */
 	public void paint1(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		int[] posNameBoard = new int[] {65, 40, 415, 34};
@@ -44,7 +45,9 @@ public class Player extends PlayerAbs{
 	    g2.setColor(Color.blue);
 	    g2.drawString(this.getPlayerName() + " Board", posNameBoard[0] + 150, posNameBoard[1] + 3*posNameBoard[3]/4);
 	}
-	
+	/*
+	 * paint player's board name with size 2
+	 */
 	public void paint2(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		int[] posNameBoard = new int[] {190, 121, 450, 50};
