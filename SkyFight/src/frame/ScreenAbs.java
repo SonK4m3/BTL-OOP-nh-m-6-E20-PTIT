@@ -9,17 +9,14 @@ import input.MouseState;
 import input.MyMouseListener;
 
 public abstract class ScreenAbs extends JFrame{
+	int xMouse;
+	int yMouse;
 	int screenWidth = 200;
 	int screenHeight = 200;
 	
-	protected int xMouse;
-	protected int yMouse;
-	
 	protected MouseState mouseState;
-	
 	protected MyMouseListener myMouseListener;
-	
-	ActivityAbs currentActivity;
+	protected ActivityAbs currentActivity;
 	
 	//setter & getter
 	public int getXMouse() {
@@ -46,7 +43,7 @@ public abstract class ScreenAbs extends JFrame{
 	/*
 	 * 	switch activity
 	 * 	reset currentActivity
-	 * 
+	 * 	move current activity and add new one
 	 */
 	public void addActivity(ActivityAbs activity) {
 		this.remove(this.currentActivity);
@@ -59,4 +56,13 @@ public abstract class ScreenAbs extends JFrame{
 	public ActivityAbs getCurrentActivity() {
 		return currentActivity;
 	}
+	
+	/*
+	 *  function to initial properties and components
+	 */
+	abstract void init();
+	/*
+	 * function to set up frame
+	 */
+	abstract void setUp();
 }

@@ -6,15 +6,11 @@ import java.awt.Toolkit;
 import javax.swing.JFrame;
 
 import activities.ActivityAbs;
-import control.AppController;
-import control.ImageController;
-import input.MouseState;
-import input.MyMouseListener;
+import control.*;
+import input.*;
 
-public class Screen extends ScreenAbs implements ScreenImp{
-	
-	private static final long serialVersionUID = 1L;
-	
+public class Screen extends ScreenAbs{
+		
 	private AppController appController;
 	
 	public Screen(AppController appController, ActivityAbs activity) {
@@ -25,7 +21,7 @@ public class Screen extends ScreenAbs implements ScreenImp{
 	}
 	
 	@Override
-	public void init() {
+	void init() {
 		this.xMouse = -1;
 		this.yMouse = -1;
 		this.mouseState = MouseState.RELEASED;
@@ -33,7 +29,7 @@ public class Screen extends ScreenAbs implements ScreenImp{
 	}
 
 	@Override
-	public void setUp() {
+	void setUp() {
 		this.setSize(960, 540);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
@@ -46,6 +42,9 @@ public class Screen extends ScreenAbs implements ScreenImp{
 		this.setVisible(true);		
 	}
 	
+	/*
+	 * get center window position 
+	 */
 	public void centreWindow() {
 		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
 	    int x = (int) ((dimension.getWidth() - this.getWidth()) / 2);
