@@ -114,11 +114,6 @@ public class AirCraft extends Object{
 		this.y = yPos;
 	}
 	
-	public void setSize(int width, int height) {
-		this.width = width;
-		this.height = height;
-	}
-	
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
