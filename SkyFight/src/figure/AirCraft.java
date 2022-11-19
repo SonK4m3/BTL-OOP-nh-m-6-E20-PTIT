@@ -10,7 +10,7 @@ import java.util.Map;
 public class AirCraft extends Object{
 
 	boolean onBoard;
-	String current_direction;
+	String currentDirection;
 	Cell head;
 	BufferedImage north_image, east_image, south_image, west_image;
 	static int[] I = new int[] {0,1,1,1,2,3, 3,3,  0,-1, 1, 0, 0, 0,-1, 1,   0,-1,-1,-1,-2,-3,-3,-3,    0,1,-1,0,0,0,1,-1};
@@ -102,11 +102,11 @@ public class AirCraft extends Object{
 	}
 	
 	public void setCurrentDirection(String direction) {
-		this.current_direction = direction;
+		this.currentDirection = direction;
 	}
 	
 	public String getCurrentDirection() {
-		return this.current_direction;
+		return this.currentDirection;
 	}
 	
 	public void setOxyCoor(int xPos, int yPos) {
@@ -119,13 +119,13 @@ public class AirCraft extends Object{
 		super.paint(g);
 		// draw aircraft with each state image
 		if(onBoard == true && north_image != null && south_image != null && west_image != null && east_image != null) {
-			if(this.current_direction.equals("North")) {
+			if(this.currentDirection.equals("North")) {
 				// top
 				g.drawImage(north_image, this.x - 31, this.y, null);
-			} else if(this.current_direction.equals("South")){
+			} else if(this.currentDirection.equals("South")){
 				// bottom
 				g.drawImage(south_image, this.x - 31, this.y - 93, null);
-			} else if(this.current_direction.equals("West")){
+			} else if(this.currentDirection.equals("West")){
 				//left
 				g.drawImage(west_image, this.x, this.y - 31, null);
 			} else {
