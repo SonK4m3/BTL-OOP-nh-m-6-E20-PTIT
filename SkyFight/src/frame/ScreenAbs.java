@@ -40,6 +40,14 @@ public abstract class ScreenAbs extends JFrame{
 		return mouseState;
 	}
 	
+	public boolean mouseStateIsLeftPressed() {
+		return this.mouseState == MouseState.LEFTPRESSED;
+	}
+	
+	public boolean mouseStateIsRightPressed() {
+		return this.mouseState == MouseState.RIGHTPRESSED;
+	}
+	
 	/*
 	 * 	switch activity
 	 * 	reset currentActivity

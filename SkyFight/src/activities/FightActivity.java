@@ -9,9 +9,7 @@ import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 
 import button.ConfirmButton;
-import figure.CellShootedState;
 import figure.OxyCoor;
-import input.MouseState;
 import notification.GameNotificationHelper;
 
 public class FightActivity extends PlayActivity {
@@ -141,12 +139,12 @@ public class FightActivity extends PlayActivity {
 			return pause.action(xMouse, yMouse);
 		}
 		
-		if(backButton.isPressed(xMouse, yMouse) && this.screen.getMouseState() == MouseState.LEFTPRESSED) {
+		if(backButton.isPressed(xMouse, yMouse) && this.screen.mouseStateIsLeftPressed()) {
 			if(!isClickedBackButton) {
 				isClickedBackButton = true;
 			}
 		} 
-		else if(changePlayerButton.isPressed(xMouse, yMouse) && this.screen.getMouseState() == MouseState.LEFTPRESSED) {
+		else if(changePlayerButton.isPressed(xMouse, yMouse) && this.screen.mouseStateIsLeftPressed()) {
 			// change player phrase
 			gameController.changeTurn();
 			if(!displayButton) {
@@ -228,11 +226,11 @@ public class FightActivity extends PlayActivity {
 							gameController.getWaitingPlayerBoard().getX(), 
 							gameController.getWaitingPlayerBoard().getY(), 
 							gameController.getWaitingPlayerBoard().getMatrix()[i][j]);
-					if(gameController.getWaitingPlayerBoard().getMatrix()[i][j].getState() == CellShootedState.Miss)
+					if(gameController.getWaitingPlayerBoard().getMatrix()[i][j].stateIsMiss())
 						g.drawImage(missImage, xy.getX(), xy.getY(),null);
-					else if(gameController.getWaitingPlayerBoard().getMatrix()[i][j].getState() == CellShootedState.Part)
+					else if(gameController.getWaitingPlayerBoard().getMatrix()[i][j].stateIsPart())
 						g.drawImage(hitImage, xy.getX(), xy.getY(),null);
-					else if(gameController.getWaitingPlayerBoard().getMatrix()[i][j].getState() == CellShootedState.Head)
+					else if(gameController.getWaitingPlayerBoard().getMatrix()[i][j].stateIsHead())
 						g.drawImage(hitHeadImage, xy.getX(), xy.getY(),null);
 				}
 			}

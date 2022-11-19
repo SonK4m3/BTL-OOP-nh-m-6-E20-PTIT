@@ -8,7 +8,6 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
 import button.*;
-import input.MouseState;
 
 public class OptionActivity extends ActivityAbs{
 
@@ -155,7 +154,7 @@ public class OptionActivity extends ActivityAbs{
 	
 	@Override
 	public int action(int xMouse, int yMouse) {
-		if(this.screen.getMouseState() == MouseState.LEFTPRESSED) {
+		if(this.screen.mouseStateIsLeftPressed()) {
 			if(backButton.isPressed(xMouse, yMouse)) {
 				System.out.println("Back to Home Activity");
 				return 1;

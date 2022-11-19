@@ -63,6 +63,17 @@ public class Cell implements Cloneable{
 		return this.state;
 	}
 	
+	public boolean stateIsHead() {
+		return this.state == CellShootedState.Head;
+	}
+	
+	public boolean stateIsPart() {
+		return this.state == CellShootedState.Part;
+	}
+	
+	public boolean stateIsMiss() {
+		return this.state == CellShootedState.Miss;
+	}
 	/*
 	 * check cell is in board matrix or not
 	 */

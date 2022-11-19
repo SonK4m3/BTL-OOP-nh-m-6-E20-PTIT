@@ -8,7 +8,6 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
 import button.*;
-import input.MouseState;
 import notification.*;
 
 public class ChooseCraftActivity extends PlayActivity {
@@ -109,12 +108,12 @@ public class ChooseCraftActivity extends PlayActivity {
 	
 	@Override
 	public int action(int xMouse, int yMouse) {
-		if(backButton.isPressed(xMouse, yMouse) && this.screen.getMouseState() == MouseState.LEFTPRESSED) {
+		if(backButton.isPressed(xMouse, yMouse) && this.screen.mouseStateIsLeftPressed()) {
 			// back to home activity
 //			System.out.println("Back to Home Activity");
 			return 1;
 		} 
-		else if(flyButton.isPressed(xMouse, yMouse) && this.screen.getMouseState() == MouseState.LEFTPRESSED) {
+		else if(flyButton.isPressed(xMouse, yMouse) && this.screen.mouseStateIsLeftPressed()) {
 			// go to fight activity
 			if(gameController.twoPlayerIsCompletePlaced()) {
 				gameController.changeTurn();
@@ -125,13 +124,13 @@ public class ChooseCraftActivity extends PlayActivity {
 				gameNotificationHelper.addNotice("Incompleted place");
 			}
 		}
-		else if(resetButton.isPressed(xMouse, yMouse) && this.screen.getMouseState() == MouseState.LEFTPRESSED) {
+		else if(resetButton.isPressed(xMouse, yMouse) && this.screen.mouseStateIsLeftPressed()) {
 			// reset aircraft player
 			gameController.playerResetAllAircraft();
 			String notice = gameController.getCurrentPlayer().getPlayerName() + " reset all ACs";
 			gameNotificationHelper.addNotice(notice);				
 		}
-		else if(changePlayerButton.isPressed(xMouse, yMouse) && this.screen.getMouseState() == MouseState.LEFTPRESSED) {
+		else if(changePlayerButton.isPressed(xMouse, yMouse) && this.screen.mouseStateIsLeftPressed()) {
 			// change player phrase
 			if(gameController.currentPlayerIsCompletedPlaced()) {
 				gameController.changeTurn();

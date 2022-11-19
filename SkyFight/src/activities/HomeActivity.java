@@ -5,7 +5,6 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 
 import button.*;
-import input.MouseState;
 
 public class HomeActivity extends ActivityAbs {
 	
@@ -89,7 +88,7 @@ public class HomeActivity extends ActivityAbs {
 	
 	@Override
 	public int action(int xMouse, int yMouse) {
-		if(this.screen.getMouseState() == MouseState.LEFTPRESSED) {	
+		if(this.screen.mouseStateIsLeftPressed()) {	
 			if(startButton.isPressed(xMouse, yMouse)) {
 //				System.out.println("Go to Select Activity");
 				return 1;
