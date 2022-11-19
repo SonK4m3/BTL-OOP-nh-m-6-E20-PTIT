@@ -20,11 +20,11 @@ public class AirCraft extends Object{
 	
 	public AirCraft() {
 		updateOnBoard(false);
-		InitPartsCoor();
-		InitAllDirection();
+		initPartsCoor();
+		initAllDirection();
 	}
 	
-	public void InitPartsCoor() {
+	public void initPartsCoor() {
 		parts_coor = new HashMap<>();
 		head = new Cell(); 		
 		ArrayList<Cell> north = new ArrayList<>();
@@ -40,7 +40,7 @@ public class AirCraft extends Object{
 	/*
 	 * initial name of direction
 	 */
-	public void InitAllDirection() {
+	public void initAllDirection() {
 		this.all_direction.add("North");
 		this.all_direction.add("East");
 		this.all_direction.add("South");
