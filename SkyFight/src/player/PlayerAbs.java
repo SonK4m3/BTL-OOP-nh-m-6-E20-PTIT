@@ -1,4 +1,4 @@
-package player;
+ package player;
 
 import java.awt.Graphics;
 
@@ -19,7 +19,7 @@ public abstract class PlayerAbs {
 	 * player create aircraft before start game
 	 * 
 	 */
-	public void initInfo() {
+	protected void initInfo() {
 		ps = PlayerState.incomplete_place;
 		air_craft1 = new AirCraft();
 		air_craft2 = new AirCraft();

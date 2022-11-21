@@ -37,7 +37,7 @@ public abstract class ScreenAbs extends JFrame{
 	}
 
 	public MouseState getMouseState() {
-		return mouseState;
+		return this.mouseState;
 	}
 	
 	public boolean mouseStateIsLeftPressed() {

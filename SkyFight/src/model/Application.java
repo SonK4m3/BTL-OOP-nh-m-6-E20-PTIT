@@ -4,7 +4,7 @@ import control.AppController;
 
 public class Application {
 	
-	AppController appController = new AppController();
+	private AppController appController = new AppController();
 	
 	public Application() {
 		

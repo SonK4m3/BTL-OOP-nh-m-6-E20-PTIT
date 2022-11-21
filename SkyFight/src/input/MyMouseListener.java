@@ -7,19 +7,13 @@ import java.awt.event.MouseListener;
 import frame.Screen;
 
 public class MyMouseListener implements MouseListener{
-	
-	boolean oneClicked = false;
-	
+		
 	private Screen myScreen;
 	
 	public MyMouseListener(Screen myScreen) {
 		this.myScreen = myScreen;
 	}
 	
-	@Override
-	public void mouseClicked(MouseEvent e) {
-	}
-
 	@Override
 	public void mousePressed(MouseEvent e) {
 		//1. get position pressed mouse
@@ -55,4 +49,8 @@ public class MyMouseListener implements MouseListener{
 
 	}
 
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		
+	}
 }
