@@ -11,11 +11,11 @@ import frame.*;
 
 public abstract class ActivityAbs extends JPanel{
 	
-	public final static int WIDTH1 = 960;
-	public final static int HEIGHT1 = 540;
+	public static int WIDTH1 = 960;
+	public static int HEIGHT1 = 540;
 	
-	public final static int WIDTH2 = 1280;
-	public final static int HEIGHT2 = 720;
+	public static int WIDTH2 = 1280;
+	public static int HEIGHT2 = 720;
 	
 	int xPos = 0;
 	int yPos = 0;
