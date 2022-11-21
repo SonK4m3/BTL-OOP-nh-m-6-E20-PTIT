@@ -2,12 +2,9 @@ package button;
 
 import activities.ActivityAbs;
 
-public class QuitButton extends ButtonAbs {
+public class QuitButton extends ConfirmButton {
 	public QuitButton(ActivityAbs activity, int xPos, int yPos) {
-		this.setAcivity(activity);
-		this.xPos = xPos;
-		this.yPos = yPos;
-		this.myButton();
+		super(activity, xPos, yPos);
 	}
 	
 	@Override

@@ -2,15 +2,12 @@ package button;
 
 import activities.*;
 
-public class DefaultButton extends ButtonAbs {
+public class DefaultButton extends ConfirmButton {
 	
 	OptionActivity optionActivity;
 	
 	public DefaultButton(ActivityAbs activity, int xPos, int yPos) {
-		this.setAcivity(activity);
-		this.xPos = xPos;
-		this.yPos = yPos;
-		this.myButton();
+		super(activity, yPos, yPos);
 		this.optionActivity = (OptionActivity) this.getActivity();
 	}
 	
