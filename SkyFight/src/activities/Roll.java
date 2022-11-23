@@ -8,13 +8,13 @@ import java.awt.RenderingHints;
 
 import button.*;
 
-public class Roll extends ActivityAbs{
+public class Roll extends RollActivity{
 	
 	ConfirmButton newGameButton;
 	ConfirmButton homeButton;
 	QuitButton quitButton;
 	
-	FightActivity playActivity;
+//	FightActivity playActivity;
 	
 	int[] posHomeButton = new int[] {245, 298};
 	int[] posNewGameButton = new int[] {405, 298};
@@ -24,13 +24,12 @@ public class Roll extends ActivityAbs{
 	int[] posText = new int[] {425, 240};
 	
 	public Roll(FightActivity playActivity, int x, int y) {
-		this.playActivity = playActivity;
-		this.xPos = x;
-		this.yPos = y;
+		super(playActivity, x, y);
 		this.myActivity();
 		this.init();
 	}
 	
+	@Override
 	public void setPosSize1() {
 		this.xPos = 230;
 		this.yPos = 123;
@@ -44,6 +43,7 @@ public class Roll extends ActivityAbs{
 		resetButton();
 	}
 	
+	@Override
 	public void setPosSize2() {
 		this.xPos = 340;
 		this.yPos = 171;
@@ -66,12 +66,14 @@ public class Roll extends ActivityAbs{
 	
 	@Override
 	public void myActivity() {
+		super.myActivity();
 		this.activityWidth = 500;
 		this.activityHeight = 250;
 	}
 
 	@Override
 	public void init() {
+		super.init();
 		homeButton = new ConfirmButton(this, posHomeButton[0], posHomeButton[1]);
 		newGameButton = new ConfirmButton(this, posNewGameButton[0], posNewGameButton[1]);
 		quitButton = new QuitButton(this, posQuitButton[0], posQuitButton[1]);

@@ -4,25 +4,22 @@ import java.awt.Graphics;
 
 import button.*;
 
-public class PauseRoll extends ActivityAbs{
+public class PauseRoll extends RollActivity{
 	ConfirmButton continueButton;
 	ConfirmButton newGameButton;
 	ConfirmButton homeButton;
-	
-	FightActivity playActivity;
-	
+		
 	int[] posContinueButton = new int[] {405, 161}; 
 	int[] posNewGameButton = new int[] {405, 226};
 	int[] posHomeButton = new int[] {405, 291};
 	
 	public PauseRoll(FightActivity playActivity, int x, int y) {
-		this.playActivity = playActivity;
-		this.xPos = x;
-		this.yPos = y;
+		super(playActivity, x, y);
 		this.myActivity();
 		this.init();
 	}
 	
+	@Override
 	public void setPosSize1() {
 		this.xPos = 230;
 		this.yPos = 123;
@@ -35,6 +32,7 @@ public class PauseRoll extends ActivityAbs{
 		resetButton();
 	}
 	
+	@Override
 	public void setPosSize2() {
 		this.xPos = 340;
 		this.yPos = 171;

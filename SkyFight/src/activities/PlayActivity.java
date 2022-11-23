@@ -34,7 +34,6 @@ public abstract class PlayActivity extends ActivityAbs{
 		posBoard = new int[] {122, 93};
 		posMessage = new int[] {514, 86, 350, 200};
 		posChangePlayerButton = new int[] {515, 389};
-		
 	}
 	
 	@Override
@@ -45,7 +44,6 @@ public abstract class PlayActivity extends ActivityAbs{
 		posBoard = new int[] {260, 191};
 		posMessage = new int[] {677, 146, 450, 300};
 		posChangePlayerButton = new int[] {677, 543};
-		
 	}
-
+	
 }
