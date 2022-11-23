@@ -7,16 +7,16 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
 public class AudioController {
-	private String main_menu_path = "D:\\Code\\ptit java\\project\\Major-Assignment-OOP-Group-6-E20-PTIT\\SkyFight\\audio\\main_menu.wav";
-	private String waiting1_path = "D:\\Code\\ptit java\\project\\Major-Assignment-OOP-Group-6-E20-PTIT\\SkyFight\\audio\\waiting1.wav";
-	private String waiting2_path = "D:\\Code\\ptit java\\project\\Major-Assignment-OOP-Group-6-E20-PTIT\\SkyFight\\audio\\waiting2.wav";
-	private String fight_path = "D:\\Code\\ptit java\\project\\Major-Assignment-OOP-Group-6-E20-PTIT\\SkyFight\\audio\\fight.wav";
-	private String crash_path = "D:\\Code\\ptit java\\project\\Major-Assignment-OOP-Group-6-E20-PTIT\\SkyFight\\audio\\crash.wav";
-	private String hit_part_path = "D:\\Code\\ptit java\\project\\Major-Assignment-OOP-Group-6-E20-PTIT\\SkyFight\\audio\\hit_part.wav";
-	private String miss_path = "D:\\Code\\ptit java\\project\\Major-Assignment-OOP-Group-6-E20-PTIT\\SkyFight\\audio\\miss.wav";
-	private String error_path = "D:\\Code\\ptit java\\project\\Major-Assignment-OOP-Group-6-E20-PTIT\\SkyFight\\audio\\error.wav";
-	private String place_aircraft_path = "D:\\Code\\ptit java\\project\\Major-Assignment-OOP-Group-6-E20-PTIT\\SkyFight\\audio\\place_aircraft.wav";
-	private String rotate_aircraft_path = "D:\\Code\\ptit java\\project\\Major-Assignment-OOP-Group-6-E20-PTIT\\SkyFight\\audio\\rotate_aircraft.wav";
+	private String main_menu_path = "audio\\main_menu.wav";
+	private String waiting1_path = "audio\\waiting1.wav";
+	private String waiting2_path = "audio\\waiting2.wav";
+	private String fight_path = "audio\\fight.wav";
+	private String crash_path = "audio\\crash.wav";
+	private String hit_part_path = "audio\\hit_part.wav";
+	private String miss_path = "audio\\miss.wav";
+	private String error_path = "audio\\error.wav";
+	private String place_aircraft_path = "audio\\place_aircraft.wav";
+	private String rotate_aircraft_path = "audio\\rotate_aircraft.wav";
 	
 	private Clip main_menu_audio;
 	private Clip waiting1_audio;
