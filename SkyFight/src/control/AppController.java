@@ -24,7 +24,7 @@ public class AppController{
 	FightActivity fightActivity;
 	
 	ArrayList<ActivityAbs> listActivities = new ArrayList<ActivityAbs>();
-	
+	AudioController audioController = new AudioController();
 	GameController gameController;
 	public ImageController imageController = new ImageController();
 	
@@ -114,6 +114,7 @@ public class AppController{
 	 * 
 	 */
 	public void loopApp() {
+		audioController.playMainMenu();
 		// application loop
 		while(appIsRunning) {
 			// 1. set thread to clicked
@@ -145,6 +146,8 @@ public class AppController{
 							chooseScraftActivity.setGameController(gameController);
 						}
 						// if click switch button, we reset current activity
+						audioController.stopMainMenu();
+						audioController.playWaiting1();
 						mainScreen.addActivity(chooseScraftActivity);
 					}
 					else if(state == 2) {
@@ -174,11 +177,16 @@ public class AppController{
 						// game is out
 						gameIsRunning = false;
 						mainScreen.addActivity(homeActivity);
+						audioController.stopWaiting1();
+						audioController.playMainMenu();
 					} else if(state == 2) {
 						// forward current state of board, player to fight activity
 						fightActivity.setGameController(gameController);
 						fightActivity.displayHeadMessage();
 						mainScreen.addActivity(fightActivity);
+						audioController.stopWaiting1();
+						audioController.playFight();
+						audioController.playWaiting2();
 					}
 				} 
 				else if(mainScreen.getCurrentActivity() == fightActivity) {
@@ -193,6 +201,8 @@ public class AppController{
 							fightActivity.setLabel(false);
 							gameIsRunning = false;
 							mainScreen.addActivity(homeActivity);
+							audioController.stopWaiting2();
+							audioController.playMainMenu();
 						} 
 						else if(state == 2) {
 							// renew game state
@@ -201,6 +211,8 @@ public class AppController{
 							this.setImageBeforeStartGame();
 							mainScreen.addActivity(chooseScraftActivity);
 							chooseScraftActivity.gameNotificationHelper.addNotice("--- New game ---");
+							audioController.stopWaiting2();
+							audioController.playWaiting1();
 						}						
 					}
 					
@@ -219,6 +231,8 @@ public class AppController{
 							gameController.newGame();
 							this.setImageBeforeStartGame();
 							mainScreen.addActivity(chooseScraftActivity);
+							audioController.playWaiting1();
+							audioController.stopWaiting2();
 							chooseScraftActivity.gameNotificationHelper.addNotice("--- New game ---");
 						}
 						else if(state == 3) {
@@ -226,6 +240,8 @@ public class AppController{
 							fightActivity.setIsClickedBackButton(false);
 							gameIsRunning = false;
 							mainScreen.addActivity(homeActivity);
+							audioController.stopWaiting2();
+							audioController.playMainMenu();
 						}
 					}
 				}

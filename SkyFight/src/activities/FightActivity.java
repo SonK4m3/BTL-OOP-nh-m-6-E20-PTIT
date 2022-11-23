@@ -9,6 +9,7 @@ import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 
 import button.ConfirmButton;
+import control.AudioController;
 import figure.OxyCoor;
 import notification.GameNotificationHelper;
 
@@ -27,7 +28,7 @@ public class FightActivity extends PlayActivity {
 	boolean isClickedBackButton = false;
 		
 	int[] posBackButton = new int[] {714, 389};
-
+	AudioController audioController = new AudioController();
 	Color rec1Color = new Color(117,213,227);
 	Color boardLayoutColor = new Color(250,252,144);
 	
@@ -163,6 +164,7 @@ public class FightActivity extends PlayActivity {
 				gameNotificationHelper.addNotice(notify);			
 				this.displayHeadMessage();
 			} else {
+				audioController.playError();
 				gameNotificationHelper.addNotice("is not your turn");
 			}		
 		}

@@ -15,7 +15,7 @@ public class GameController {
 	private Player P1;
 	private Player P2;
 	ArrayDeque<Player> turn = new ArrayDeque<>();
-	
+	AudioController audioController = new AudioController();
 	public GameController() {
 		this.newGame();
 	}
@@ -144,6 +144,7 @@ public class GameController {
 				p1.setState(PlayerState.waiting);
 				p2.setState(PlayerState.shooting);
 			} else {
+				audioController.playError();
 				notify = "invalid shoot";
 			}
 			return notify;

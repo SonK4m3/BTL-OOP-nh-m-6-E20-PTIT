@@ -6,7 +6,7 @@ import figure.*;
 import player.*;
 
 public class Computation {
-	
+	AudioController audioController = new AudioController();
 	public Computation() {
 		
 	}
@@ -61,6 +61,7 @@ public class Computation {
 				airCraft1.setPartsCoor(pos_Click);		//set toa do cho cac bo phan
 				direction = isAircraftCanBePlace(airCraft1, board);	//kiem tra xem co dat duoc may bay khong
 				if(direction == "") {			//neu khong dat duoc may bay
+					audioController.playError();
 					return "can't place";
 				}
 				else{			//neu dat duoc may bay
@@ -73,6 +74,7 @@ public class Computation {
 						
 					P.updatePlacedAircraft(P.getPlacedAircraft()+1);			//cap nhap so may bay da dat cho nguoi choi P
 					board.printMatrix();			//in ma tran de kiem tra
+					audioController.playPlaceAircraft();
 					return "place AC 1";
 				}
 			}
@@ -87,7 +89,7 @@ public class Computation {
 					direction = isAircraftCanBePlace(airCraft1, board);
 					if(direction == "") {
 						
-						return "can't place";
+						return "can't rotate";
 					} else {
 						airCraft1.setCurrentDirection(direction);
 						board.updateMatrix(airCraft1.getPartsCoor().get(direction));
@@ -96,15 +98,16 @@ public class Computation {
 						airCraft1.setOxyCoor(headOxyCoor.getX(), headOxyCoor.getY());
 					
 						board.printMatrix();
-						
+						audioController.playRotateAircraft();
 						return "rotate AC 1";
 					}
 				}
 				else if(pos_Click.getValue() == 0){
-					System.out.println("place aircraft 2");
+					
 					airCraft2.setPartsCoor(pos_Click);		//set toa do cho cac bo phan
 					direction = isAircraftCanBePlace(airCraft2, board);	//kiem tra xem co dat duoc may bay khong
 					if(direction == "") {			//neu khong dat duoc may bay
+						audioController.playError();
 						return "can't place";
 					}
 					else{			//neu dat duoc may bay
@@ -117,6 +120,7 @@ public class Computation {
 							
 						P.updatePlacedAircraft(P.getPlacedAircraft()+1);			//cap nhap so may bay da dat cho nguoi choi P
 						board.printMatrix();			//in ma tran de kiem tra
+						audioController.playPlaceAircraft();
 						return "place AC 2";
 					}
 				}
@@ -128,7 +132,7 @@ public class Computation {
 					
 					direction = isAircraftCanBePlace(airCraft2, board);
 					if(direction == "") {
-						return "can't place";
+						return "can't rotate";
 					} else {
 						airCraft2.setCurrentDirection(direction);
 						board.updateMatrix(airCraft2.getPartsCoor().get(direction));
@@ -137,7 +141,7 @@ public class Computation {
 						airCraft2.setOxyCoor(headOxyCoor.getX(), headOxyCoor.getY());
 					
 						board.printMatrix();
-						
+						audioController.playRotateAircraft();
 						return "rotate AC 2";
 					}
 				}
@@ -145,6 +149,7 @@ public class Computation {
 					airCraft1.setPartsCoor(pos_Click);		//set toa do cho cac bo phan
 					direction = isAircraftCanBePlace(airCraft1, board);	//kiem tra xem co dat duoc may bay khong
 					if(direction == "") {			//neu khong dat duoc may bay
+						audioController.playError();
 						return "can't place";
 					}
 					else{			//neu dat duoc may bay
@@ -157,6 +162,7 @@ public class Computation {
 							
 						P.updatePlacedAircraft(P.getPlacedAircraft()+1);			//cap nhap so may bay da dat cho nguoi choi P
 						board.printMatrix();			//in ma tran de kiem tra
+						audioController.playPlaceAircraft();
 						return "place AC 1";
 					}
 				}
@@ -169,7 +175,7 @@ public class Computation {
 					direction = isAircraftCanBePlace(airCraft1, board);
 					if(direction == "") {
 						
-						return "can't place";
+						return "can't rotate";
 					} else {
 						airCraft1.setCurrentDirection(direction);
 						board.updateMatrix(airCraft1.getPartsCoor().get(direction));
@@ -178,7 +184,7 @@ public class Computation {
 						airCraft1.setOxyCoor(headOxyCoor.getX(), headOxyCoor.getY());
 					
 						board.printMatrix();
-						
+						audioController.playRotateAircraft();
 						return "rotate AC 1";
 					}
 				}
@@ -190,14 +196,14 @@ public class Computation {
 					
 					direction = isAircraftCanBePlace(airCraft2, board);
 					if(direction == "") {
-						return "can't place";
+						return "can't rotate";
 					} else {
 						airCraft2.setCurrentDirection(direction);
 						board.updateMatrix(airCraft2.getPartsCoor().get(direction));
 						
 						OxyCoor headOxyCoor = airCraft2.convertCellToPixel(board.getX(), board.getY(), airCraft2.getHead());
 						airCraft2.setOxyCoor(headOxyCoor.getX(), headOxyCoor.getY());
-					
+						audioController.playRotateAircraft();
 						board.printMatrix();
 						
 						return "rotate AC 2";
@@ -205,7 +211,7 @@ public class Computation {
 				}
 			}
 		}
-		System.out.println("cant place");
+		audioController.playError();
 		return "can't place";
 	}
 	
@@ -269,6 +275,7 @@ public class Computation {
 		if(pos_Click.isValid() && board.getMatrix()[pos_Click.getI()][pos_Click.getJ()].isShooted() == false) {
 			// if shot to head
 			if(P.getAircraft(1).getHead().collide(pos_Click)) {
+				audioController.playCrash();
 				notify = "head";
 				AirCraft airCraft1 = P.getAircraft(1);
 				String current_direction = airCraft1.getCurrentDirection();
@@ -279,6 +286,7 @@ public class Computation {
 				P.updateRemainAircraft(P.getRemainAircraft() - 1);
 			}
 			else if(P.getAircraft(2).getHead().collide(pos_Click)) {
+				audioController.playCrash();
 				notify = "head";
 				AirCraft airCraft2 = P.getAircraft(2);
 				String current_direction = airCraft2.getCurrentDirection();
@@ -290,6 +298,7 @@ public class Computation {
 			}
 			// if shot to part
 			else if(board.matrix[pos_Click.getI()][pos_Click.getJ()].getValue() == 1) {
+				audioController.playHitPart();
 				notify = "part";
 				board.getMatrix()[pos_Click.getI()][pos_Click.getJ()].setValue(0);
 				board.getMatrix()[pos_Click.getI()][pos_Click.getJ()].setPartState();;
@@ -297,6 +306,7 @@ public class Computation {
 			}
 			// if shot miss
 			else {
+				audioController.playMiss();
 				board.getMatrix()[pos_Click.getI()][pos_Click.getJ()].setMissState();
 				notify = "miss";
 			}
